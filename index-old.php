@@ -1,3 +1,0 @@
-<?php
-    echo "school Management";
-?>
