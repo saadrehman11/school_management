@@ -16,23 +16,23 @@ include '../../includes/sidebar.php';
             <div class="card-body">
               <div class="form-group py-2">
                 <label for="student_name">Student Name</label>
-                <input type="text" id="student_name" class="form-control">
+                <input type="text" id="student_name"  name="student_name" class="form-control" required>
               </div>
               <div class="form-group py-2">
                 <label for="father_name">Father's Name</label>
-                <input type="text" id="father_name" class="form-control">
+                <input type="text" id="father_name" name="father_name" class="form-control" required>
               </div>
               <div class="form-group py-2">
                 <label for="phone">Phone #</label>
-                <input type="text" id="phone" class="form-control">
+                <input type="text" id="phone" name="phone" class="form-control">
               </div>
               <div class="form-group py-2">
                 <label for="batch">Batch</label>
-                <input type="text" id="batch" class="form-control">
+                <input type="text" id="batch" name="batch" class="form-control" required>
               </div>
               <div class="form-group py-2">
                 <label for="semester">Semester</label>
-                <select id="inputStatus" class="form-control custom-select">
+                <select id="semester" name="semester" class="form-control custom-select" >
                   <option selected disabled>Select Semester</option>
                   <option value="1">1st</option>
                   <option value="2">2nd</option>
@@ -44,7 +44,10 @@ include '../../includes/sidebar.php';
                   <option value="8">8th</option>
                 </select>
               </div>
-              
+              <div class="form-group py-2">
+                <label for="picture">Picture</label>
+                <input type="file" id="picture" name="picture" class="form-control">
+              </div>
             </div>
             <!-- /.card-body -->
           </div>
@@ -64,10 +67,10 @@ include '../../includes/sidebar.php';
                     {
                         ?>
                         
-                        <div class="col-12 col-md-4 form-group py-3">
+                        <div class="col-12 col-md-6 form-group py-3">
                             <div class="custom-control custom-radio">
-                                <input class="custom-control-input" type="radio" id="customRadio<?=$row['id']?>" name="customRadio" value="<?=$row['id']?>">
-                                <label for="customRadio<?=$row['id']?>" class="custom-control-label"><?=$row['discipline_name']?></label>
+                                <input class="custom-control-input" type="radio" id="discipline<?=$row['id']?>" name="discipline" value="<?=$row['id']?>" required>
+                                <label for="discipline<?=$row['id']?>" class="custom-control-label"><?=$row['discipline_name']?> (<?=$row['program']?>)</label>
                             </div>
                         </div>
                         <?php
@@ -82,10 +85,10 @@ include '../../includes/sidebar.php';
                     while ($row=mysqli_fetch_array($ret)) 
                     {
                         ?>
-                        <div class="col-12 col-md-4 form-group py-3">
+                        <div class="col-12 col-md-6 form-group py-3">
                             <div class="custom-control custom-radio">
-                                <input class="custom-control-input" type="radio" id="customRadio<?=$row['id']?>" name="customRadio" value="<?=$row['id']?>">
-                                <label for="customRadio<?=$row['id']?>" class="custom-control-label"><?=$row['discipline_name']?></label>
+                                <input class="custom-control-input" type="radio" id="discipline<?=$row['id']?>" name="discipline" value="<?=$row['id']?>" required>
+                                <label for="discipline<?=$row['id']?>" class="custom-control-label"><?=$row['discipline_name']?> (<?=$row['program']?>)</label>
                             </div>
                         </div>
                         <?php
@@ -106,7 +109,6 @@ include '../../includes/sidebar.php';
         </div>
       </div>
       </form>
-        
 </div>
 </main>
 <?php

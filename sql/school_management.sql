@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Mar 07, 2023 at 10:57 PM
+-- Generation Time: Mar 08, 2023 at 12:16 AM
 -- Server version: 10.4.27-MariaDB
 -- PHP Version: 8.2.0
 
@@ -72,15 +72,24 @@ INSERT INTO `discipline` (`id`, `discipline_name`, `branch`, `program`, `system_
 
 CREATE TABLE `student` (
   `id` int(11) NOT NULL,
-  `name` varchar(512) DEFAULT NULL,
+  `student_name` varchar(512) DEFAULT NULL,
   `father_name` varchar(512) DEFAULT NULL,
   `phone` varchar(512) DEFAULT NULL,
   `batch` varchar(512) DEFAULT NULL,
   `discipline` varchar(512) DEFAULT NULL,
   `picture_path` longtext DEFAULT NULL,
-  `status` varchar(11) DEFAULT NULL,
+  `status` varchar(11) DEFAULT '1',
   `created_on` datetime DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `student`
+--
+
+INSERT INTO `student` (`id`, `student_name`, `father_name`, `phone`, `batch`, `discipline`, `picture_path`, `status`, `created_on`) VALUES
+(1, 'student1', 'fat1', '123456', '2022', '1', 'assets/images/profile_photo/2023_03_08_03_44_16.jpg', '1', '2023-03-08 03:42:14'),
+(2, 'test', 'erwr', '(220)200-5', '13213', '1', 'assets/images/profile_photo/2023_03_08_03_44_16.jpg', '1', '2023-03-08 03:44:16'),
+(3, 'sadasd', 'sadasd', '98310230', '2022', '16', 'assets/images/profile_photo/2023_03_08_03_44_16.jpg', '1', '2023-03-08 03:46:01');
 
 -- --------------------------------------------------------
 
@@ -92,9 +101,18 @@ CREATE TABLE `student_semester` (
   `id` int(11) NOT NULL,
   `semester_number` varchar(512) DEFAULT NULL,
   `student_id` varchar(512) DEFAULT NULL,
-  `status` varchar(11) DEFAULT NULL,
+  `status` varchar(11) DEFAULT '1',
   `created_on` datetime DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `student_semester`
+--
+
+INSERT INTO `student_semester` (`id`, `semester_number`, `student_id`, `status`, `created_on`) VALUES
+(1, '1', '1', '1', '2023-03-08 03:42:14'),
+(2, '8', '2', '1', '2023-03-08 03:44:16'),
+(3, '7', '3', '1', '2023-03-08 03:46:01');
 
 --
 -- Indexes for dumped tables
@@ -132,13 +150,13 @@ ALTER TABLE `discipline`
 -- AUTO_INCREMENT for table `student`
 --
 ALTER TABLE `student`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT for table `student_semester`
 --
 ALTER TABLE `student_semester`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

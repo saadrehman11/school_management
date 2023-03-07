@@ -1,17 +1,22 @@
 function add_student_db() {
-    console.log("add_student_db()");
-    // var formData = new FormData(document.getElementById("new_student_form"));
-    // formData.append('product_type_title', product_type_title);
+    console.log("add_student_db");
+    var formData = new FormData(document.getElementById("new_student_form"));
     $.ajax({
-        url: "../php/students_controller.php?type=101",
+        url: "../../controller/students_controller/php/students_controller.php?type=101",
         type: "POST",
-        data:  new FormData(document.getElementById("new_student_form")),
+        data: formData,
         contentType: false,
         processData:false,
         cache: false,
         success: function(dataResult){
             console.log(dataResult);
-            // document.getElementById("new_productType_form").reset();
+            var resp = JSON.parse(dataResult);
+            if(resp.status_Code == 100){
+                alert("Student Added Successfully")
+            }
+            else if(resp.status_Code == 200){
+                alert(resp.msg);
+            }
         }
     });
 }
