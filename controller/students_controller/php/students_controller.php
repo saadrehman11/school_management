@@ -5,6 +5,7 @@ $type = $_REQUEST['type'];
 
 if($type=="101"){
 
+    print_r($_POST);
 }
 
 

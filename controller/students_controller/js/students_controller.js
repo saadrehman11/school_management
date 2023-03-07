@@ -11,7 +11,7 @@ function add_student_db() {
         cache: false,
         success: function(dataResult){
             console.log(dataResult);
-            document.getElementById("new_productType_form").reset();
+            // document.getElementById("new_productType_form").reset();
         }
     });
 }
