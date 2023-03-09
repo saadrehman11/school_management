@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Mar 08, 2023 at 12:16 AM
+-- Generation Time: Mar 09, 2023 at 10:35 PM
 -- Server version: 10.4.27-MariaDB
 -- PHP Version: 8.2.0
 
@@ -67,6 +67,73 @@ INSERT INTO `discipline` (`id`, `discipline_name`, `branch`, `program`, `system_
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `head_of_accounts`
+--
+
+CREATE TABLE `head_of_accounts` (
+  `id` int(11) NOT NULL,
+  `account_name` varchar(512) DEFAULT NULL,
+  `category` varchar(512) DEFAULT NULL,
+  `amount` int(255) DEFAULT NULL,
+  `status` varchar(11) DEFAULT '1',
+  `created_on` datetime DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `head_of_accounts`
+--
+
+INSERT INTO `head_of_accounts` (`id`, `account_name`, `category`, `amount`, `status`, `created_on`) VALUES
+(1, 'Admission Fee', '1', NULL, '1', '2023-03-10 02:03:46'),
+(2, 'Hostel Fee', '1', NULL, '1', '2023-03-10 02:03:46'),
+(3, 'Hostel Security Fee', '1', NULL, '1', '2023-03-10 02:03:46'),
+(4, 'Prospectus Fee', '1', NULL, '1', '2023-03-10 02:03:46'),
+(5, 'Stamp Paper Fee', '1', NULL, '1', '2023-03-10 02:03:46'),
+(6, 'Tution Fee', '1', NULL, '1', '2023-03-10 02:03:46'),
+(7, 'Transport Fee', '1', NULL, '1', '2023-03-10 02:03:46'),
+(8, 'Clinical Training Fee (BS)', '2', NULL, '1', '2023-03-10 02:03:46'),
+(9, 'Degree Fee', '2', NULL, '1', '2023-03-10 02:03:46'),
+(10, 'Exam Fee (BS)', '2', NULL, '1', '2023-03-10 02:03:46'),
+(11, 'Registration Fee (BS)', '2', NULL, '1', '2023-03-10 02:03:46'),
+(12, 'Retention Fee', '2', NULL, '1', '2023-03-10 02:03:46'),
+(13, 'Transcript Fee (BS)', '2', NULL, '1', '2023-03-10 02:03:46'),
+(14, 'Clinical Training Fee (Diploma)', '3', NULL, '1', '2023-03-10 02:03:46'),
+(15, 'Diploma Fee', '3', NULL, '1', '2023-03-10 02:03:46'),
+(16, 'Exam Fee (Diploma)', '3', NULL, '1', '2023-03-10 02:03:46'),
+(17, 'Grace Marks Fee', '3', NULL, '1', '2023-03-10 02:03:46'),
+(18, 'Registration Fee (Diploma)', '3', NULL, '1', '2023-03-10 02:03:46'),
+(19, 'UFM Fee', '3', NULL, '1', '2023-03-10 02:03:46'),
+(20, 'Exam Fee (CAT-B)', '4', NULL, '1', '2023-03-10 02:03:46'),
+(21, 'Registration Fee (CAT-B)', '4', NULL, '1', '2023-03-10 02:03:46'),
+(22, 'LHV Registration Fee', '5', NULL, '1', '2023-03-10 02:03:46'),
+(23, 'PNC Registration Fee', '5', NULL, '1', '2023-03-10 02:03:46');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `hoa_category`
+--
+
+CREATE TABLE `hoa_category` (
+  `id` int(11) NOT NULL,
+  `category_name` varchar(512) DEFAULT NULL,
+  `status` varchar(11) NOT NULL DEFAULT '1'
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `hoa_category`
+--
+
+INSERT INTO `hoa_category` (`id`, `category_name`, `status`) VALUES
+(1, 'General', '1'),
+(2, 'BS Degree', '1'),
+(3, 'Diploma', '1'),
+(4, 'CAT-B', '1'),
+(5, 'Nursing', '1');
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `student`
 --
 
@@ -125,6 +192,18 @@ ALTER TABLE `discipline`
   ADD PRIMARY KEY (`id`);
 
 --
+-- Indexes for table `head_of_accounts`
+--
+ALTER TABLE `head_of_accounts`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `hoa_category`
+--
+ALTER TABLE `hoa_category`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- Indexes for table `student`
 --
 ALTER TABLE `student`
@@ -145,6 +224,18 @@ ALTER TABLE `student_semester`
 --
 ALTER TABLE `discipline`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=21;
+
+--
+-- AUTO_INCREMENT for table `head_of_accounts`
+--
+ALTER TABLE `head_of_accounts`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=24;
+
+--
+-- AUTO_INCREMENT for table `hoa_category`
+--
+ALTER TABLE `hoa_category`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT for table `student`

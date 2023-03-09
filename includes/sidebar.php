@@ -27,7 +27,25 @@
         </a>
       </li>
     </ul>
-  </li><!-- End Forms Nav -->
+  </li>
+  <li class="nav-item">
+    <a class="nav-link collapsed" data-bs-target="#hoa-nav" data-bs-toggle="collapse" href="#">
+      <i class="bi bi-journal-text"></i><span>Head Of Accounts</span><i class="bi bi-chevron-down ms-auto"></i>
+    </a>
+    <ul id="hoa-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
+      <li>
+        <a href="../head_of_accounts/all_head_of_accounts.php">
+          <i class="bi bi-circle"></i><span>All Head Of Accounts</span>
+        </a>
+      </li>
+      <li>
+        <a href="../head_of_accounts/add_head_of_accounts.php">
+          <i class="bi bi-circle"></i><span>Add Head Of Accounts</span>
+        </a>
+      </li>
+    </ul>
+  </li>
+
 
   <li class="nav-item">
     <a class="nav-link collapsed" data-bs-target="#components-nav" data-bs-toggle="collapse" href="#">

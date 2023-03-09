@@ -55,8 +55,8 @@ include '../../includes/sidebar.php';
         </div>
         <div class="col-md-6">
           <div class="card card-secondary">
-            <div class="card-header">
-              <h3 class="card-title text-center">Discipline</h3>
+            <div class="card-header pb-0">
+              <h3 class="card-title text-center py-0">Discipline</h3>
             </div>
             <div class="card-body">
                 <div class="row mt-3">
@@ -104,7 +104,6 @@ include '../../includes/sidebar.php';
       </div>
       <div class="row">
         <div class="col-12">
-          <a href="#" class="btn btn-secondary">Cancel</a>
           <input type="submit" class="btn btn-success float-right">
         </div>
       </div>
