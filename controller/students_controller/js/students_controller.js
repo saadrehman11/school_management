@@ -20,3 +20,8 @@ function add_student_db() {
         }
     });
 }
+
+function edit_student_detail(student_id){
+
+    
+}
