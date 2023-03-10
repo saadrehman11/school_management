@@ -9,10 +9,11 @@ function add_student_db() {
         processData:false,
         cache: false,
         success: function(dataResult){
-            console.log(dataResult);
+            // console.log(dataResult);
             var resp = JSON.parse(dataResult);
             if(resp.status_Code == 100){
                 alert("Student Added Successfully")
+                document.getElementById("new_student_form").reset();
             }
             else if(resp.status_Code == 200){
                 alert(resp.msg);

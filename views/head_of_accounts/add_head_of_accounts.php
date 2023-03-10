@@ -6,13 +6,10 @@ include '../../includes/sidebar.php';
 <main id="main" class="main">
 <div class="container py-2">
 
-    <form id="new_hoa_form"  method="post" action="#" onsubmit="add_hoa_db();return false">
-      <div class="row mt-3">
+    <form id="new_hoa_form"  method="post" action="#" onsubmit="new_hoa_form();return false">
+      <div class="d-flex justify-content-center mt-3">
         <div class="col-md-6">
-          <div class="card card-primary">
-            <div class="card-header">
-              <h3 class="card-title text-center">General</h3>
-            </div>
+          <div class="card card-primary py-4">
             <div class="card-body">
               <div class="form-group py-2">
                 <label for="account_name">Account Name</label>
@@ -44,8 +41,8 @@ include '../../includes/sidebar.php';
         </div>
         
       </div>
-      <div class="row">
-        <div class="col-12">
+      <div>
+        <div class="d-flex justify-content-evenly">
           <a href="#" class="btn btn-secondary">Cancel</a>
           <input type="submit" class="btn btn-success float-right">
         </div>

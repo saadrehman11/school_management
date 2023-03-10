@@ -9,6 +9,8 @@ if($type=="101"){
     $date_and_time = date("Y-m-d H:i:s");
     $date_time_file_name = date("Y_m_d_h_i_s");
     $msg ='';
+    $img_path ='';
+    $file_Status_Code = '';
     if(!empty($_FILES['picture']['name'])){
         $target_dir = "../../../assets/images/profile_photo/";
         $img_path = "assets/images/profile_photo/";
@@ -31,6 +33,7 @@ if($type=="101"){
         if (move_uploaded_file($_FILES["picture"]["tmp_name"], ($target_dir.$date_time_file_name.'.'.$imageFileType))) {
             $file_Status_Code = 100;
             $msg .=  "The file ". htmlspecialchars( basename( $_FILES["picture"]["name"])). " has been uploaded.";
+            $img_path = $img_path.$date_time_file_name.'.'.$imageFileType;
         } else {
             $msg .=  "Sorry, there was an error uploading your file.";
             $file_Status_Code = 200;
@@ -55,7 +58,7 @@ if($type=="101"){
         $phone = $_POST['phone'];
         $batch = $_POST['batch'];
         $discipline = $_POST['discipline'];
-        $img_path = $img_path.$date_time_file_name.'.'.$imageFileType;
+        
         if($stmt->execute()){
             $id = $pconn->lastInsertId();
             $semester = $_POST['semester'];
