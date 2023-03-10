@@ -45,7 +45,12 @@
       </li>
     </ul>
   </li>
-
+  <li class="nav-item">
+    <a class="nav-link collapsed" href="../fee_details/all_fee_details.php">
+      <i class="bi bi-person"></i>
+      <span>Fee Details</span>
+    </a>
+  </li>
 
   <li class="nav-item">
     <a class="nav-link collapsed" data-bs-target="#components-nav" data-bs-toggle="collapse" href="#">
