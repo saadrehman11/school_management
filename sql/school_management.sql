@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Mar 09, 2023 at 10:35 PM
+-- Generation Time: Mar 10, 2023 at 10:36 PM
 -- Server version: 10.4.27-MariaDB
 -- PHP Version: 8.2.0
 
@@ -67,6 +67,22 @@ INSERT INTO `discipline` (`id`, `discipline_name`, `branch`, `program`, `system_
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `fee_record`
+--
+
+CREATE TABLE `fee_record` (
+  `id` int(11) NOT NULL,
+  `student_id` varchar(512) DEFAULT NULL,
+  `hoa_id` varchar(512) DEFAULT NULL,
+  `semester` varchar(11) DEFAULT NULL,
+  `total_amount` int(255) DEFAULT NULL,
+  `status` varchar(11) DEFAULT NULL COMMENT '1=paid 2=unpaid',
+  `created_on` datetime DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `head_of_accounts`
 --
 
@@ -84,52 +100,29 @@ CREATE TABLE `head_of_accounts` (
 --
 
 INSERT INTO `head_of_accounts` (`id`, `account_name`, `category`, `amount`, `status`, `created_on`) VALUES
-(1, 'Admission Fee', '1', NULL, '1', '2023-03-10 02:03:46'),
-(2, 'Hostel Fee', '1', NULL, '1', '2023-03-10 02:03:46'),
-(3, 'Hostel Security Fee', '1', NULL, '1', '2023-03-10 02:03:46'),
-(4, 'Prospectus Fee', '1', NULL, '1', '2023-03-10 02:03:46'),
-(5, 'Stamp Paper Fee', '1', NULL, '1', '2023-03-10 02:03:46'),
-(6, 'Tution Fee', '1', NULL, '1', '2023-03-10 02:03:46'),
-(7, 'Transport Fee', '1', NULL, '1', '2023-03-10 02:03:46'),
-(8, 'Clinical Training Fee (BS)', '2', NULL, '1', '2023-03-10 02:03:46'),
-(9, 'Degree Fee', '2', NULL, '1', '2023-03-10 02:03:46'),
-(10, 'Exam Fee (BS)', '2', NULL, '1', '2023-03-10 02:03:46'),
-(11, 'Registration Fee (BS)', '2', NULL, '1', '2023-03-10 02:03:46'),
-(12, 'Retention Fee', '2', NULL, '1', '2023-03-10 02:03:46'),
-(13, 'Transcript Fee (BS)', '2', NULL, '1', '2023-03-10 02:03:46'),
-(14, 'Clinical Training Fee (Diploma)', '3', NULL, '1', '2023-03-10 02:03:46'),
-(15, 'Diploma Fee', '3', NULL, '1', '2023-03-10 02:03:46'),
-(16, 'Exam Fee (Diploma)', '3', NULL, '1', '2023-03-10 02:03:46'),
-(17, 'Grace Marks Fee', '3', NULL, '1', '2023-03-10 02:03:46'),
-(18, 'Registration Fee (Diploma)', '3', NULL, '1', '2023-03-10 02:03:46'),
-(19, 'UFM Fee', '3', NULL, '1', '2023-03-10 02:03:46'),
-(20, 'Exam Fee (CAT-B)', '4', NULL, '1', '2023-03-10 02:03:46'),
-(21, 'Registration Fee (CAT-B)', '4', NULL, '1', '2023-03-10 02:03:46'),
-(22, 'LHV Registration Fee', '5', NULL, '1', '2023-03-10 02:03:46'),
-(23, 'PNC Registration Fee', '5', NULL, '1', '2023-03-10 02:03:46');
-
--- --------------------------------------------------------
-
---
--- Table structure for table `hoa_category`
---
-
-CREATE TABLE `hoa_category` (
-  `id` int(11) NOT NULL,
-  `category_name` varchar(512) DEFAULT NULL,
-  `status` varchar(11) NOT NULL DEFAULT '1'
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
---
--- Dumping data for table `hoa_category`
---
-
-INSERT INTO `hoa_category` (`id`, `category_name`, `status`) VALUES
-(1, 'General', '1'),
-(2, 'BS Degree', '1'),
-(3, 'Diploma', '1'),
-(4, 'CAT-B', '1'),
-(5, 'Nursing', '1');
+(1, 'Admission Fee', 'General', NULL, '1', '2023-03-10 02:03:46'),
+(2, 'Hostel Fee', 'General', NULL, '1', '2023-03-10 02:03:46'),
+(3, 'Hostel Security Fee', 'General', NULL, '1', '2023-03-10 02:03:46'),
+(4, 'Prospectus Fee', 'General', NULL, '1', '2023-03-10 02:03:46'),
+(5, 'Stamp Paper Fee', 'General', NULL, '1', '2023-03-10 02:03:46'),
+(6, 'Tution Fee', 'General', NULL, '1', '2023-03-10 02:03:46'),
+(7, 'Transport Fee', 'General', NULL, '1', '2023-03-10 02:03:46'),
+(8, 'Clinical Training Fee (BS)', 'BS Degree', NULL, '1', '2023-03-10 02:03:46'),
+(9, 'Degree Fee', 'BS Degree', NULL, '1', '2023-03-10 02:03:46'),
+(10, 'Exam Fee (BS)', 'BS Degree', NULL, '1', '2023-03-10 02:03:46'),
+(11, 'Registration Fee (BS)', 'BS Degree', NULL, '1', '2023-03-10 02:03:46'),
+(12, 'Retention Fee', 'BS Degree', NULL, '1', '2023-03-10 02:03:46'),
+(13, 'Transcript Fee (BS)', 'BS Degree', NULL, '1', '2023-03-10 02:03:46'),
+(14, 'Clinical Training Fee (Diploma)', 'Diploma', NULL, '1', '2023-03-10 02:03:46'),
+(15, 'Diploma Fee', 'Diploma', NULL, '1', '2023-03-10 02:03:46'),
+(16, 'Exam Fee (Diploma)', 'Diploma', NULL, '1', '2023-03-10 02:03:46'),
+(17, 'Grace Marks Fee', 'Diploma', NULL, '1', '2023-03-10 02:03:46'),
+(18, 'Registration Fee (Diploma)', 'Diploma', NULL, '1', '2023-03-10 02:03:46'),
+(19, 'UFM Fee', 'Diploma', NULL, '1', '2023-03-10 02:03:46'),
+(20, 'Exam Fee (CAT-B)', 'CAT-B', NULL, '1', '2023-03-10 02:03:46'),
+(21, 'Registration Fee (CAT-B)', 'CAT-B', NULL, '1', '2023-03-10 02:03:46'),
+(22, 'LHV Registration Fee', 'Nursing', NULL, '1', '2023-03-10 02:03:46'),
+(23, 'PNC Registration Fee', 'Nursing', NULL, '1', '2023-03-10 02:03:46');
 
 -- --------------------------------------------------------
 
@@ -156,7 +149,12 @@ CREATE TABLE `student` (
 INSERT INTO `student` (`id`, `student_name`, `father_name`, `phone`, `batch`, `discipline`, `picture_path`, `status`, `created_on`) VALUES
 (1, 'student1', 'fat1', '123456', '2022', '1', 'assets/images/profile_photo/2023_03_08_03_44_16.jpg', '1', '2023-03-08 03:42:14'),
 (2, 'test', 'erwr', '(220)200-5', '13213', '1', 'assets/images/profile_photo/2023_03_08_03_44_16.jpg', '1', '2023-03-08 03:44:16'),
-(3, 'sadasd', 'sadasd', '98310230', '2022', '16', 'assets/images/profile_photo/2023_03_08_03_44_16.jpg', '1', '2023-03-08 03:46:01');
+(3, 'sadasd', 'sadasd', '98310230', '2022', '16', 'assets/images/profile_photo/2023_03_08_03_44_16.jpg', '1', '2023-03-08 03:46:01'),
+(4, 'test', 'father', '12345', '2022', '9', '2023_03_11_01_44_40.', '1', '2023-03-11 01:44:40'),
+(5, 'abcd', 'defg', '12123423', '13213', '4', '', '1', '2023-03-11 01:51:57'),
+(6, 'st', 'fat', '1213', '324234', '20', '', '1', '2023-03-11 01:53:01'),
+(7, 'rtesatras', 'gdfgdfgdf', '21321423', '234234', '8', '', '1', '2023-03-11 01:54:37'),
+(8, 'dfghdfg', 'dfgdf', 'gdfgdf', '4523r', '6', 'assets/images/profile_photo/2023_03_11_01_55_00.jpg', '1', '2023-03-11 01:55:00');
 
 -- --------------------------------------------------------
 
@@ -179,7 +177,12 @@ CREATE TABLE `student_semester` (
 INSERT INTO `student_semester` (`id`, `semester_number`, `student_id`, `status`, `created_on`) VALUES
 (1, '1', '1', '1', '2023-03-08 03:42:14'),
 (2, '8', '2', '1', '2023-03-08 03:44:16'),
-(3, '7', '3', '1', '2023-03-08 03:46:01');
+(3, '7', '3', '1', '2023-03-08 03:46:01'),
+(4, '2', '4', '1', '2023-03-11 01:44:40'),
+(5, '1', '5', '1', '2023-03-11 01:51:57'),
+(6, '3', '6', '1', '2023-03-11 01:53:01'),
+(7, '4', '7', '1', '2023-03-11 01:54:37'),
+(8, '3', '8', '1', '2023-03-11 01:55:00');
 
 --
 -- Indexes for dumped tables
@@ -192,15 +195,15 @@ ALTER TABLE `discipline`
   ADD PRIMARY KEY (`id`);
 
 --
--- Indexes for table `head_of_accounts`
+-- Indexes for table `fee_record`
 --
-ALTER TABLE `head_of_accounts`
+ALTER TABLE `fee_record`
   ADD PRIMARY KEY (`id`);
 
 --
--- Indexes for table `hoa_category`
+-- Indexes for table `head_of_accounts`
 --
-ALTER TABLE `hoa_category`
+ALTER TABLE `head_of_accounts`
   ADD PRIMARY KEY (`id`);
 
 --
@@ -226,28 +229,28 @@ ALTER TABLE `discipline`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=21;
 
 --
+-- AUTO_INCREMENT for table `fee_record`
+--
+ALTER TABLE `fee_record`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
 -- AUTO_INCREMENT for table `head_of_accounts`
 --
 ALTER TABLE `head_of_accounts`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=24;
-
---
--- AUTO_INCREMENT for table `hoa_category`
---
-ALTER TABLE `hoa_category`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=26;
 
 --
 -- AUTO_INCREMENT for table `student`
 --
 ALTER TABLE `student`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 
 --
 -- AUTO_INCREMENT for table `student_semester`
 --
 ALTER TABLE `student_semester`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

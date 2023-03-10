@@ -11,6 +11,7 @@ function new_hoa_form() {
             var resp = JSON.parse(dataResult);
             if(resp.status_Code == 100){
                 alert("Head Of Account Added Successfully")
+                document.getElementById("new_hoa_form").reset();
             }
         }
     });

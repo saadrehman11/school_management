@@ -19,15 +19,12 @@ include '../../includes/sidebar.php';
                 <label for="category">Category</label>
                 <select id="category" name="category" class="form-control custom-select" >
                   <option selected disabled>Select Category</option>
-                  <?php
-                  $ret=mysqli_query($con,"SELECT * FROM `hoa_category` WHERE `status` = '1'"); 
-                  while ($row=mysqli_fetch_array($ret)) 
-                  {
-                    ?>
-                    <option value="<?=$row['id']?>"><?=$row['category_name']?></option>
-                    <?php
-                  }
-                  ?>
+                  <option value="General">General</option>
+                  <option value="BS Degree">BS Degree</option>
+                  <option value="Diploma">Diploma</option>
+                  <option value="CAT-B">CAT-B</option>
+                  <option value="Nursing">Nursing</option>
+                  
                   </select>
               </div>
               <div class="form-group py-2">
