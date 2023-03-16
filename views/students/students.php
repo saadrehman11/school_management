@@ -3,6 +3,7 @@ include '../../includes/header.php';
 include '../../includes/sidebar.php';
 ?>  
 <main id="main" class="main">
+  <div class="d-flex justify-content-center"><h2>All Students</h2></div>
 <div class="container-fluid">
 
 <div class="table-responsive">
@@ -49,26 +50,26 @@ include '../../includes/sidebar.php';
           <img src="../../<?=$row['picture_path']?>" height="45" width="45">
         </td>
         <td>
-          <p class="text-sm"><?=$row['student_name']?></p></td>
+          <p class="mb-0 text-sm"><?=$row['student_name']?></p></td>
         <td>
-          <p class="text-sm"><?=$row['father_name']?></p>  
+          <p class="mb-0 text-sm"><?=$row['father_name']?></p>  
         </td>
         <td>
-          <p class="text-sm"><?=$row['phone']?></p></td>
+          <p class="mb-0 text-sm"><?=$row['phone']?></p></td>
         <td>
-          <p class="text-sm"><?=$row['batch']?></p>  
+          <p class="mb-0 text-sm"><?=$row['batch']?></p>  
         </td>
         <td>
-          <p class="text-sm"><?=$discipline_name?></p>
+          <p class="mb-0 text-sm"><?=$discipline_name?></p>
         </td>
         <td>
-          <p class="text-sm"><?=$discipline_branch?></p>
+          <p class="mb-0 text-sm"><?=$discipline_branch?></p>
         </td>
         <td>
-          <p class="text-sm"><?=$discipline_program?></p>
+          <p class="mb-0 text-sm"><?=$discipline_program?></p>
         </td>
         <td>
-          <p class="text-sm"><?=$semester?></p>
+          <p class="mb-0 text-sm"><?=$semester?></p>
         </td>
         <td>
           <div>
@@ -80,11 +81,11 @@ include '../../includes/sidebar.php';
           <?php
           if($row['status'] == '1'){
             ?>
-              <p class="text-white bg-success text-sm p-2 text-center">Active</p>
+              <p class="mb-0 text-white bg-success text-sm p-2 text-center">Active</p>
             <?php
           }elseif($row['status'] == '2'){
             ?>
-              <p class="text-white bg-danger text-sm p-2 text-center">InActive</p>
+              <p class="mb-0 text-white bg-danger text-sm p-2 text-center">InActive</p>
             <?php
           }
         ?>
