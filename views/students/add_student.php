@@ -67,7 +67,7 @@ include '../../includes/sidebar.php';
                     {
                         ?>
                         
-                        <div class="col-12 col-md-6 form-group py-3">
+                        <div class="col-12 col-md-6 form-group py-2">
                             <div class="custom-control custom-radio">
                                 <input class="custom-control-input" type="radio" id="discipline<?=$row['id']?>" name="discipline" value="<?=$row['id']?>" required>
                                 <label for="discipline<?=$row['id']?>" class="custom-control-label"><?=$row['discipline_name']?> (<?=$row['program']?>)</label>
@@ -85,7 +85,7 @@ include '../../includes/sidebar.php';
                     while ($row=mysqli_fetch_array($ret)) 
                     {
                         ?>
-                        <div class="col-12 col-md-6 form-group py-3">
+                        <div class="col-12 col-md-6 form-group py-2">
                             <div class="custom-control custom-radio">
                                 <input class="custom-control-input" type="radio" id="discipline<?=$row['id']?>" name="discipline" value="<?=$row['id']?>" required>
                                 <label for="discipline<?=$row['id']?>" class="custom-control-label"><?=$row['discipline_name']?> (<?=$row['program']?>)</label>

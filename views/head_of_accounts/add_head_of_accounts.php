@@ -4,6 +4,7 @@ include '../../includes/sidebar.php';
 ?>  
 
 <main id="main" class="main">
+  <div class="d-flex justify-content-center"><h2>Add Head Of Account</h2></div>
 <div class="container py-2">
 
     <form id="new_hoa_form"  method="post" action="#" onsubmit="new_hoa_form();return false">

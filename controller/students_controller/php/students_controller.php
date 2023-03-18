@@ -63,6 +63,28 @@ if($type=="101"){
             $id = $pconn->lastInsertId();
             $semester = $_POST['semester'];
             $addsemester=mysqli_query($con, "INSERT INTO `student_semester`(`semester_number`, `student_id`, `created_on`) VALUES ('$semester','$id','$date_and_time')");
+
+            $check_discipline = mysqli_fetch_array(mysqli_query($con,"SELECT * FROM `discipline` WHERE `id` = '$discipline'"));
+            $program = $check_discipline['program'];
+            if($program == "Diploma"){
+                $p = "Diploma";
+            }
+            elseif($program == "BS"){
+                $p = "BS Degree";   
+            }
+            elseif($program == "CAT-B"){
+                $p = "CAT-B";   
+            }
+            elseif($program == "Nursing"){
+                $p = "Nursing";   
+            }
+            $ret=mysqli_query($con,"SELECT * FROM `head_of_accounts` WHERE `category` = '$p'"); 
+            while ($row=mysqli_fetch_array($ret)) 
+            {   
+                $hoa_id = $row['id'];
+                $amount = $row['amount'];
+                $add_fee_record=mysqli_query($con, "INSERT INTO `fee_record`(`student_id`, `hoa_id`, `semester`, `total_amount`, `created_on`) VALUES ('$id','$hoa_id','$semester','$amount','$date_and_time')");
+            }
             echo json_encode(['status_Code'=>100,'msg'=>'Success','file_Status_Code'=>$file_Status_Code,'file_msg'=>$msg]);
         }
     }
