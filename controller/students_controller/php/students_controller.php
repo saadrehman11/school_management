@@ -78,12 +78,22 @@ if($type=="101"){
             elseif($program == "Nursing"){
                 $p = "Nursing";   
             }
-            $ret=mysqli_query($con,"SELECT * FROM `head_of_accounts` WHERE `category` = '$p'"); 
+            $ret=mysqli_query($con,"SELECT * FROM `head_of_accounts` WHERE (`category` = '$p' || `category` = 'General') AND `status` = '1'"); 
             while ($row=mysqli_fetch_array($ret)) 
             {   
                 $hoa_id = $row['id'];
                 $amount = $row['amount'];
                 $add_fee_record=mysqli_query($con, "INSERT INTO `fee_record`(`student_id`, `hoa_id`, `semester`, `total_amount`, `created_on`) VALUES ('$id','$hoa_id','$semester','$amount','$date_and_time')");
+            }
+            $hostellite = $_POST['hostellite'];
+            if($hostellite == '1'){
+                $ret2=mysqli_query($con,"SELECT * FROM `head_of_accounts` WHERE `category` = 'General_optional' AND `status` = '1'"); 
+                while ($row2=mysqli_fetch_array($ret2)) 
+                {   
+                    $hoa_id = $row2['id'];
+                    $amount = $row2['amount'];
+                    $add_fee_record=mysqli_query($con, "INSERT INTO `fee_record`(`student_id`, `hoa_id`, `semester`, `total_amount`, `created_on`) VALUES ('$id','$hoa_id','$semester','$amount','$date_and_time')");
+                }
             }
             echo json_encode(['status_Code'=>100,'msg'=>'Success','file_Status_Code'=>$file_Status_Code,'file_msg'=>$msg]);
         }

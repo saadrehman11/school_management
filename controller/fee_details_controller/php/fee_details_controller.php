@@ -3,6 +3,7 @@ include '../../../includes/dbconnection.php';
 
 $type = $_REQUEST['type'];
 
+// load students
 if($type=="101"){
 
     $st_name = $_POST['st_name'];
@@ -106,16 +107,17 @@ if($type=="101"){
         </td>
         <td>
           <div>
-            <button class="btn btn-sm btn-primary" onclick="see_details(<?=$student_id?>)" type="button" data-toggle="collapse" data-target="#student_row<?=$student_id?>" aria-expanded="false" aria-controls="collapseExample"><i class="bi bi-clipboard-check"></i> Details</button>
+          <a class="btn btn-primary btn-sm" data-bs-target="#student_row<?=$student_id?>" data-bs-toggle="collapse" href="#" onclick="see_details(<?=$student_id?>)"><i class="bi bi-clipboard-check"></i> Details</a>
           </div>
         </td>
         
       
       </tr>
       <tr>
-        <div class="collapse" id="student_row<?=$student_id?>">
-            <p>test</p>
-        </div>
+        <td colspan="13">
+          <div class="collapse" id="student_row<?=$student_id?>">
+          </div>
+        </td>
       </tr>
       <?php
       $count++;
@@ -128,4 +130,54 @@ if($type=="101"){
 </table>
 </div>
     <?php
+}
+
+// load fee details
+if($type=="102"){
+  $student_id = $_POST['student_id'];
+  ?>
+  <div class="table-responsive">
+  <table class="table" id="students_fee_detail_table">
+  <thead class="bg-secondary text-white">
+    <tr>
+      <th scope="col">#</th>
+      <th scope="col">Student ID</th>
+      <th scope="col">Student Name</th>
+      <th scope="col">Head of Account</th>
+      <th scope="col">Semester</th>
+      <th scope="col">Total Amount</th>
+      <th scope="col">Amount Paid</th>
+    </tr>
+  </thead>
+  <tbody class="bg-white text-dark">
+  <?php
+
+  $ret=mysqli_query($con,"SELECT * FROM `fee_record` WHERE `student_id` = '$student_id' ORDER BY semester DESC"); 
+  $count =1;
+  while ($row=mysqli_fetch_array($ret)) 
+  {
+    $hoa_id = $row['hoa_id'];
+    $check_student = mysqli_fetch_array(mysqli_query($con,"SELECT * FROM `student` WHERE `id` = '$student_id'"));
+    $StudentName = $check_student['student_name'];
+
+    $check_hoa = mysqli_fetch_array(mysqli_query($con,"SELECT * FROM `head_of_accounts` WHERE `id` = '$hoa_id'"));
+    $HOA_Name = $check_hoa['account_name'];
+    ?>
+    <tr>
+      <td><?=$count?></td>
+      <td><?=$student_id?></td>
+      <td><?=$StudentName?></td>
+      <td><?=$HOA_Name?></td>
+      <td><?=$row['semester']?></td>
+      <td><?=$row['total_amount']?></td>
+      <td><?=$row['amount_paid']?></td>
+    </tr>
+    <?php
+    $count++;
+  }
+  ?>
+   </tbody>
+</table>
+</div>
+  <?php
 }

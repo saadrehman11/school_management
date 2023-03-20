@@ -11,15 +11,26 @@ function load_students_data() {
             branch:branch,
         },               
         success: function(data){ 
-          console.log(data)
+        //   console.log(data)
           $("#fee_table_div").html(data);
           document.getElementById("search_submit_btn").innerHTML='Submit';
         }
     });
 }
 
-function see_details() {
-    
+function see_details(student_id) {
+    $.ajax({    
+        type: "POST",
+        url: "../../controller/fee_details_controller/php/fee_details_controller.php",   
+        data:{
+            type:102,
+            student_id:student_id,
+        },               
+        success: function(data){ 
+        //   console.log(data)
+          $("#student_row"+student_id).html(data);
+        }
+    });
 }
 
 

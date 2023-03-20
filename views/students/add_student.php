@@ -10,8 +10,8 @@ include '../../includes/sidebar.php';
       <div class="row mt-3">
         <div class="col-md-6">
           <div class="card card-primary">
-            <div class="card-header">
-              <h3 class="card-title text-center">General</h3>
+            <div class="card-header pb-0">
+              <h3 class="card-title text-center py-0">General</h3>
             </div>
             <div class="card-body">
               <div class="form-group py-2">
@@ -47,6 +47,19 @@ include '../../includes/sidebar.php';
               <div class="form-group py-2">
                 <label for="picture">Picture</label>
                 <input type="file" id="picture" name="picture" class="form-control">
+              </div>
+              <div class="form-group py-2">
+                <label for="picture">Need Hostel:</label>
+                <div class="row">
+                  <div class="col-12 col-md-6">
+                    <input type="radio" id="hostellite_yes" name="hostellite" class="custom-control-input" value="1">
+                    <label for="hostellite_yes" class="custom-control-label">Yes</label>
+                  </div>
+                  <div class="col-12 col-md-6">
+                    <input type="radio" id="hostellite_no" name="hostellite" class="custom-control-input" value="2" checked>
+                    <label for="hostellite_no" class="custom-control-label">No</label>
+                  </div>
+                </div>
               </div>
             </div>
             <!-- /.card-body -->
