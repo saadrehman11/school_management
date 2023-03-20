@@ -13,7 +13,7 @@
 
   <li class="nav-item">
     <a class="nav-link collapsed" data-bs-target="#students-nav" data-bs-toggle="collapse" href="#">
-      <i class="bi bi-journal-text"></i><span>Students</span><i class="bi bi-chevron-down ms-auto"></i>
+      <i class="bi bi-person"></i><span>Students</span><i class="bi bi-chevron-down ms-auto"></i>
     </a>
     <ul id="students-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
       <li>
@@ -47,8 +47,14 @@
   </li>
   <li class="nav-item">
     <a class="nav-link collapsed" href="../fee_details/all_fee_details.php">
-      <i class="bi bi-person"></i>
+      <i class="bi bi-journal-text"></i>
       <span>Fee Details</span>
+    </a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link collapsed" href="../fee_details/fee_submit.php">
+      <i class="bi bi-journal-text"></i>
+      <span>Fee Submit</span>
     </a>
   </li>
 

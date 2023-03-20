@@ -2,8 +2,8 @@
 include '../../includes/header.php';
 include '../../includes/sidebar.php';
 ?>  
-<main id="main" class="main">
 
+<main id="main" class="main">
     <div class="container my-3">
         <div class="row">
             <div class="col-12 col-md-5 py-1">
@@ -17,23 +17,25 @@ include '../../includes/sidebar.php';
                 </select>
             </div>
             <div class="col-12 col-md-2 py-1">
-                <button class="btn btn-primary" id="search_submit_btn" onclick="load_students_data('2')"> Submit</button>
+                <button class="btn btn-primary" id="search_submit_btn" onclick="load_students_data('1')"> Submit</button>
             </div>
         </div>
     </div>
 
     <div class="container-fluid" id="fee_table_div"></div>
+    
 </main>
-
-
-
-<!-- Edit Student Modal-->
+<div class="modal fade" id="submit_fee_modal" tabindex="-1">
+  <div class="modal-dialog modal-dialog-centered modal-xl">
+    <div class="modal-content">
+ 
+      <div class="modal-body" id="fee_submit_modal_body">
+        
+      </div>
+    </div>
+  </div>
+</div>
 <?php
 include '../../includes/footer.php';
 ?>  
 <script src="../../controller/fee_details_controller/js/fee_details_controller.js"></script>
-<script>
-    $(function() {
-        load_students_data('2');
-    });
-</script>
