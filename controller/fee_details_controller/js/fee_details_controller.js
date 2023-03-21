@@ -51,3 +51,25 @@ function see_remaining_fee_details(student_id) {
 }
 
 
+
+function submit_paying_amount(fee_record_id) {
+    var paying_amount_input = $("#paying_amount_input"+fee_record_id).val();
+    $.ajax({    
+        type: "POST",
+        url: "../../controller/fee_details_controller/php/fee_details_controller.php",   
+        data: {
+            fee_record_id:fee_record_id,
+            paying_amount_input:paying_amount_input,
+            type:104,
+        },             
+        success: function(data){ 
+            var res = JSON.parse(data)
+            alert(res.msg);
+            if(res.status_Code == 100){
+                see_remaining_fee_details(res.student_id)
+            }
+        }
+    });
+}
+
+

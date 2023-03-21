@@ -205,6 +205,7 @@ if($type=="102"){
 </div>
   <?php
 }
+
 // load remaining fee details
 if($type=="103"){
   $student_id = $_POST['student_id'];
@@ -220,6 +221,8 @@ if($type=="103"){
       <th scope="col">Semester</th>
       <th scope="col">Total Amount</th>
       <th scope="col">Amount Paid</th>
+      <th scope="col" class="w-auto">Paying Amount</th>
+      <th scope="col">Submit</th>
     </tr>
   </thead>
   <tbody class="bg-white text-dark">
@@ -229,6 +232,7 @@ if($type=="103"){
   $count =1;
   while ($row=mysqli_fetch_array($ret)) 
   {
+    $id = $row['id'];
     $hoa_id = $row['hoa_id'];
     $check_student = mysqli_fetch_array(mysqli_query($con,"SELECT * FROM `student` WHERE `id` = '$student_id'"));
     $StudentName = $check_student['student_name'];
@@ -237,13 +241,40 @@ if($type=="103"){
     $HOA_Name = $check_hoa['account_name'];
     ?>
     <tr>
-      <td><?=$count?></td>
-      <td><?=$student_id?></td>
-      <td><?=$StudentName?></td>
-      <td><?=$HOA_Name?></td>
-      <td><?=$row['semester']?></td>
-      <td><?=$row['total_amount']?></td>
-      <td><?=$row['amount_paid']?></td>
+    
+      <td>
+        <p class="text-sm"><?=$count?></p>
+        
+      </td>
+      <td>
+        <p class="text-sm"><?=$student_id?></p>
+      </td>
+      <td>
+        <p class="text-sm"><?=$StudentName?></p>
+      </td>
+      <td>
+        <p class="text-sm"><?=$HOA_Name?></p>
+      </td>
+      <td>
+        <p class="text-sm"><?=$row['semester']?></p>
+      </td>
+      <td>
+      <p class="text-sm"> <?=$row['total_amount']?></p>
+      </td>
+      <td>
+      <p class="text-sm"><?=$row['amount_paid']?></p>
+      </td>
+      <td style="width:10vw">
+        <div >
+          <input class="form-control" type="number" name="paying_amount_input<?=$id?>" id="paying_amount_input<?=$id?>" <?php if(intval($row['amount_paid']) >= intval($row['total_amount']) ){echo 'disabled';}?>>
+        </div>
+      </td>
+      <td>
+        <div>
+          <button type="button" class="btn btn-sm btn-primary" onclick="submit_paying_amount(<?=$id?>)" <?php if(intval($row['amount_paid']) >= intval($row['total_amount']) ){echo 'disabled';}?>>Submit</button>
+        </div>
+      </td>
+      
     </tr>
     <?php
     $count++;
@@ -253,4 +284,35 @@ if($type=="103"){
 </table>
 </div>
   <?php
+}
+
+
+if($type=="104"){
+
+  $paying_amount_input = $_POST['paying_amount_input'];
+  $fee_record_id = $_POST['fee_record_id'];
+
+  $check_fee_record = mysqli_fetch_array(mysqli_query($con,"SELECT * FROM `fee_record` WHERE `id` = '$fee_record_id'"));
+  $total_amount = $check_fee_record['total_amount'];
+  $amount_paid = $check_fee_record['amount_paid'];
+  $student_id = $check_fee_record['student_id'];
+
+  if(!empty($paying_amount_input)){
+    $final_amount = $paying_amount_input + $amount_paid;
+    if(intval($final_amount) <= intval($total_amount)){
+      $updatequery=mysqli_query($con, "UPDATE `fee_record` SET `amount_paid`='$final_amount' WHERE `id` = '$fee_record_id'");
+      if($updatequery){
+        echo json_encode(['status_Code'=>100,'msg'=>"Successfully Updated",'student_id'=>$student_id]);
+      }
+      else{
+        echo json_encode(['status_Code'=>200,'msg'=>"Error updating Record"]);
+      }
+    }
+    else{
+      echo json_encode(['status_Code'=>302,'msg'=>"The Amount is exceeding the total amount"]);
+    }
+  }
+  else{
+    echo json_encode(['status_Code'=>301,'msg'=>"Entered Amount cannot be empty"]);
+  }
 }

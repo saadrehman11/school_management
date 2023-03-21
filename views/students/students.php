@@ -4,14 +4,23 @@ include '../../includes/sidebar.php';
 ?>  
 <main id="main" class="main">
   <div class="d-flex justify-content-center"><h2>All Students</h2></div>
+  <div class="row">
+    <div class="col-12">
+      <input class="check-all mx-2" type="checkbox" name="" value="">
+      <label class=" mx-2">Select All Students</label>
+    </div>
+    
+  </div>
 <div class="container-fluid">
 
 <div class="table-responsive">
   <table class="table table-striped datatable " id="students_table">
   <thead class="bg-dark text-white">
     <tr>
+      <th scope="col">Select</th>
       <th scope="col">#</th>
       <th scope="col">Picture</th>
+      <th scope="col">Student ID</th>
       <th scope="col">Student Name</th>
       <th scope="col">Father Name</th>
       <th scope="col">Phone</th>
@@ -45,12 +54,17 @@ include '../../includes/sidebar.php';
       $discipline_program = $check_discipline['program'];
       ?>
       <tr>
+        <td><input type="checkbox" name="" value="<?=$student_id?>"></td>
         <td><?=$count?></td>
         <td>
           <img src="../../<?=$row['picture_path']?>" height="45" width="45">
         </td>
         <td>
-          <p class="mb-0 text-sm"><?=$row['student_name']?></p></td>
+          <p class="mb-0 text-sm"><?=$row['id']?></p>
+        </td>
+        <td>
+          <p class="mb-0 text-sm"><?=$row['student_name']?></p>
+        </td>
         <td>
           <p class="mb-0 text-sm"><?=$row['father_name']?></p>  
         </td>
@@ -229,3 +243,36 @@ include '../../includes/footer.php';
 ?>  
 
 <script src="../../controller/students_controller/js/students_controller.js"></script>
+
+      
+<script>
+          
+          $(function() {
+            // When the "Check All" checkbox is clicked
+            $('.check-all').click(function() {
+              // Get all the checkboxes in the same div as the "specific_div"
+              var checkboxes = $('#students_table').find(':checkbox');
+              // Set their checked state to match the "Check All" checkbox
+              checkboxes.prop('checked', $(this).prop('checked'));
+            });
+            
+            // When any other checkbox is clicked
+            $('#students_table :checkbox').not('.check-all').click(function() {
+              // If all the other checkboxes are checked, check the "Check All" checkbox
+              if ($('#students_table :checkbox').not('.check-all').length == $('#students_table :checkbox:checked').not('.check-all').length) {
+                $('.check-all').prop('checked', true);
+              } else {
+                $('.check-all').prop('checked', false);
+              }
+            });
+            
+            // Check the status of the checkboxes at page load
+            if ($('#students_table :checkbox').not('.check-all').length == $('#students_table :checkbox:checked').not('.check-all').length) {
+              $('.check-all').prop('checked', true);
+            } else {
+              $('.check-all').prop('checked', false);
+            }
+          });
+          
+          
+                </script>

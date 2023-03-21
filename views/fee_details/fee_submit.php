@@ -29,9 +29,7 @@ include '../../includes/sidebar.php';
   <div class="modal-dialog modal-dialog-centered modal-xl">
     <div class="modal-content">
  
-      <div class="modal-body" id="fee_submit_modal_body">
-        
-      </div>
+      <div class="modal-body" id="fee_submit_modal_body"></div>
     </div>
   </div>
 </div>
