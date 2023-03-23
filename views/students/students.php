@@ -4,117 +4,69 @@ include '../../includes/sidebar.php';
 ?>  
 <main id="main" class="main">
   <div class="d-flex justify-content-center"><h2>All Students</h2></div>
-  <div class="row">
-    <div class="col-12">
-      <input class="check-all mx-2" type="checkbox" name="" value="">
-      <label class=" mx-2">Select All Students</label>
+
+  <div class="container my-3">
+        <div class="row">
+            <div class="col-12 col-md-6 py-1">
+                <input class="form-control" name="student_name" id="student_name" placeholder="Write Student Name" autocomplete="off" />
+            </div>
+            <div class="col-12 col-md-4 py-1">
+                <input class="form-control" name="batch" id="batch" placeholder="Write batch" autocomplete="off" />
+            </div>
+            <div class="col-12 col-md-3 py-1">
+                <select class="form-control" name="branch" id="branch">
+                    <option value="" selected>Select</option>
+                    <option value="nihms">NIHMS</option>
+                    <option value="ncn">NCN</option>
+                </select>
+            </div>
+            <div class="col-12 col-md-3 py-1">
+                <select class="form-control" name="semester" id="semester">
+                    <option value="" selected>Semester</option>
+                    <option value="1">1</option>
+                    <option value="2">2</option>
+                    <option value="3">3</option>
+                    <option value="4">4</option>
+                    <option value="5">5</option>
+                    <option value="6">6</option>
+                    <option value="7">7</option>
+                    <option value="8">8</option>
+                </select>
+            </div>
+            <div class="col-12 col-md-3 py-1">
+                <select class="form-control" name="discipline" id="discipline">
+                <option value="" selected>Discipline</option>
+                    <?php 
+                    $ret=mysqli_query($con,"SELECT * FROM `discipline` WHERE `status` = '1'"); 
+                    while ($row=mysqli_fetch_array($ret)) 
+                    {
+                        ?>
+                        <option value="<?=$row['id']?>"><?=$row['discipline_name']. "(".$row['program'].")"?></option>
+                        <?php
+                    }
+                    ?>
+                    
+                </select>
+            </div>
+            <div class="col-12 col-md-2 py-1">
+                <button class="btn btn-primary" id="search_submit_btn" onclick="load_students_data()"> Search</button>
+            </div>
+        </div>
     </div>
-    
+
+  <div class="container pb-4">
+    <div class="row ">
+      <div class="col-12">
+        <input class="check-all mx-2" type="checkbox" name="all_students" id="all_students">
+        <label class="mx-2" for="all_students">Select All Students</label>
+      </div>
+    </div>
   </div>
+  
 <div class="container-fluid">
 
-<div class="table-responsive">
-  <table class="table table-striped datatable " id="students_table">
-  <thead class="bg-dark text-white">
-    <tr>
-      <th scope="col">Select</th>
-      <th scope="col">#</th>
-      <th scope="col">Picture</th>
-      <th scope="col">Student ID</th>
-      <th scope="col">Student Name</th>
-      <th scope="col">Father Name</th>
-      <th scope="col">Phone</th>
-      <th scope="col">Batch</th>
-      <th scope="col">Discipline</th>
-      <th scope="col">Branch</th>
-      <th scope="col">Program</th>
-      <th scope="col">Semester</th>
-      <th scope="col">Action</th>
-      <th scope="col">Status</th>
-    </tr>
-  </thead>
-  <tbody>
-    <?php
-    $ret=mysqli_query($con,"SELECT * FROM `student` "); 
-    $count = 1;
-    while ($row=mysqli_fetch_array($ret)) 
-    {
-      $student_id = $row['id'];
-      $discipline = $row['discipline'];
-      $check_semester = mysqli_fetch_array(mysqli_query($con,"SELECT * FROM `student_semester` WHERE `student_id` = '$student_id' ORDER BY created_on DESC LIMIT 1"));
-      if(!empty($check_semester)){
-        $semester = $check_semester['semester_number'];
-      }
-      else{
-        $semester = NULL;
-      }
-      $check_discipline = mysqli_fetch_array(mysqli_query($con,"SELECT * FROM `discipline` WHERE `id` = '$discipline'"));
-      $discipline_name = $check_discipline['discipline_name'];
-      $discipline_branch= $check_discipline['branch'];
-      $discipline_program = $check_discipline['program'];
-      ?>
-      <tr>
-        <td><input type="checkbox" name="" value="<?=$student_id?>"></td>
-        <td><?=$count?></td>
-        <td>
-          <img src="../../<?=$row['picture_path']?>" height="45" width="45">
-        </td>
-        <td>
-          <p class="mb-0 text-sm"><?=$row['id']?></p>
-        </td>
-        <td>
-          <p class="mb-0 text-sm"><?=$row['student_name']?></p>
-        </td>
-        <td>
-          <p class="mb-0 text-sm"><?=$row['father_name']?></p>  
-        </td>
-        <td>
-          <p class="mb-0 text-sm"><?=$row['phone']?></p></td>
-        <td>
-          <p class="mb-0 text-sm"><?=$row['batch']?></p>  
-        </td>
-        <td>
-          <p class="mb-0 text-sm"><?=$discipline_name?></p>
-        </td>
-        <td>
-          <p class="mb-0 text-sm"><?=$discipline_branch?></p>
-        </td>
-        <td>
-          <p class="mb-0 text-sm"><?=$discipline_program?></p>
-        </td>
-        <td>
-          <p class="mb-0 text-sm"><?=$semester?></p>
-        </td>
-        <td>
-          <div>
-            <button class="btn btn-sm btn-warning" onclick="edit_student_detail(<?=$student_id?>)" data-bs-toggle="modal" data-bs-target="#edit_student_modal"><i class="bi bi-pencil-square"></i></button>
-            <button class="btn btn-sm btn-danger" onclick="delete_student(<?=$student_id?>)"><i class="bi bi-person-x-fill"></i></button>
-          </div>
-        </td>
-        <td>
-          <?php
-          if($row['status'] == '1'){
-            ?>
-              <p class="mb-0 text-white bg-success text-sm p-2 text-center">Active</p>
-            <?php
-          }elseif($row['status'] == '2'){
-            ?>
-              <p class="mb-0 text-white bg-danger text-sm p-2 text-center">InActive</p>
-            <?php
-          }
-        ?>
-        </td>
-      
-      </tr>
-      <?php
-      $count++;
-    }
-    
-    ?>
-    
-    
-  </tbody>
-</table>
+<div class="table-responsive" id="students_table_div">
+
 </div>
 
 
@@ -207,14 +159,14 @@ include '../../includes/sidebar.php';
                       $ret=mysqli_query($con,"SELECT * FROM `discipline` WHERE `status` = '1' AND `branch` ='ncn'"); 
                       while ($row=mysqli_fetch_array($ret)) 
                       {
-                          ?>
-                          <div class="col-12 col-md-6 form-group py-3">
-                              <div class="custom-control custom-radio">
-                                  <input class="custom-control-input" type="radio" id="discipline<?=$row['id']?>" name="discipline" value="<?=$row['id']?>" required>
-                                  <label for="discipline<?=$row['id']?>" class="custom-control-label"><?=$row['discipline_name']?> (<?=$row['program']?>)</label>
-                              </div>
-                          </div>
-                          <?php
+                        ?>
+                        <div class="col-12 col-md-6 form-group py-3">
+                            <div class="custom-control custom-radio">
+                                <input class="custom-control-input" type="radio" id="discipline<?=$row['id']?>" name="discipline" value="<?=$row['id']?>" required>
+                                <label for="discipline<?=$row['id']?>" class="custom-control-label"><?=$row['discipline_name']?> (<?=$row['program']?>)</label>
+                            </div>
+                        </div>
+                        <?php
                       }
                   ?>
                   </div>
@@ -231,48 +183,71 @@ include '../../includes/sidebar.php';
           </div>
         </div>
       </form>
-</div>
+      </div>
       </div>
     </div>
   </div>
 </div>
 
+
 <!-- Edit Student Modal-->
 <?php
 include '../../includes/footer.php';
 ?>  
+<script>
+  
+    // DataTable
+    // var table = $('#students_table').DataTable({
+      // "ordering": false,
+      // paging : false,
+      // initComplete: function(){
+      //     // Apply the search
+      //     this.api().columns().every(function(){
+      //         var that = this;
+      //         $('input', this.footer()).on('keyup change clear', function(){
+      //             if(that.search() !== this.value ){
+      //                 that.search(this.value).draw();
+      //             }
+      //         });
+      //     });
+      // }
+    // });
+
+</script>
 
 <script src="../../controller/students_controller/js/students_controller.js"></script>
 
+
       
 <script>
-          
-          $(function() {
-            // When the "Check All" checkbox is clicked
-            $('.check-all').click(function() {
-              // Get all the checkboxes in the same div as the "specific_div"
-              var checkboxes = $('#students_table').find(':checkbox');
-              // Set their checked state to match the "Check All" checkbox
-              checkboxes.prop('checked', $(this).prop('checked'));
-            });
-            
-            // When any other checkbox is clicked
-            $('#students_table :checkbox').not('.check-all').click(function() {
-              // If all the other checkboxes are checked, check the "Check All" checkbox
-              if ($('#students_table :checkbox').not('.check-all').length == $('#students_table :checkbox:checked').not('.check-all').length) {
-                $('.check-all').prop('checked', true);
-              } else {
-                $('.check-all').prop('checked', false);
-              }
-            });
-            
-            // Check the status of the checkboxes at page load
-            if ($('#students_table :checkbox').not('.check-all').length == $('#students_table :checkbox:checked').not('.check-all').length) {
-              $('.check-all').prop('checked', true);
-            } else {
-              $('.check-all').prop('checked', false);
-            }
-          });
-          
-          
-                </script>
+  load_students_data() 
+
+  $(function() {
+    // When the "Check All" checkbox is clicked
+    $('.check-all').click(function() {
+      // Get all the checkboxes in the same div as the "specific_div"
+      var checkboxes = $('#students_table').find(':checkbox');
+      // Set their checked state to match the "Check All" checkbox
+      checkboxes.prop('checked', $(this).prop('checked'));
+    });
+    
+    // When any other checkbox is clicked
+    $('#students_table :checkbox').not('.check-all').click(function() {
+      // If all the other checkboxes are checked, check the "Check All" checkbox
+      if ($('#students_table :checkbox').not('.check-all').length == $('#students_table :checkbox:checked').not('.check-all').length) {
+        $('.check-all').prop('checked', true);
+      } else {
+        $('.check-all').prop('checked', false);
+      }
+    });
+    
+    // Check the status of the checkboxes at page load
+    if ($('#students_table :checkbox').not('.check-all').length == $('#students_table :checkbox:checked').not('.check-all').length) {
+      $('.check-all').prop('checked', true);
+    } else {
+      $('.check-all').prop('checked', false);
+    }
+  });
+
+
+      </script>

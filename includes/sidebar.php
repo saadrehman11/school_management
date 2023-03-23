@@ -51,12 +51,7 @@
       <span>Fee Details</span>
     </a>
   </li>
-  <li class="nav-item">
-    <a class="nav-link collapsed" href="../fee_details/fee_submit.php">
-      <i class="bi bi-journal-text"></i>
-      <span>Fee Submit</span>
-    </a>
-  </li>
+ 
 
   <li class="nav-item">
     <a class="nav-link collapsed" data-bs-target="#components-nav" data-bs-toggle="collapse" href="#">

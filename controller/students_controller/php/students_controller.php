@@ -104,6 +104,160 @@ if($type=="101"){
     
 }
 
+if($type == "102"){
+    $st_name = $_POST['st_name'];
+    $batch = $_POST['batch'];
+    $branch = $_POST['branch'];
+    $semester = $_POST['semester'];
+    $discipline = $_POST['discipline'];
+    $and_status = '0';
+?>
+
+  <table class="table table-striped " id="students_table">
+  <thead class="bg-dark text-white">
+    <tr>
+      <th scope="col">Select</th>
+      <th scope="col">#</th>
+      <th scope="col">Student ID</th>
+      <th scope="col">Picture</th>
+      <th scope="col">Student Name</th>
+      <th scope="col">Father Name</th>
+      <th scope="col">Phone</th>
+      <th scope="col">Batch</th>
+      <th scope="col">Discipline</th>
+      <th scope="col">Branch</th>
+      <th scope="col">Program</th>
+      <th scope="col">Semester</th>
+      <th scope="col">Status</th>
+      <th scope="col">Action</th>
+    </tr>
+  </thead>
+  <?php
+    
+    $q = "SELECT * FROM `student`";
+    if(!empty($st_name) || !empty($batch) || !empty($branch) || !empty($semester) || !empty($discipline)){ 
+        $q .= " WHERE ";
+        if(!empty($st_name) ){
+            $q .= " student_name LIKE '%$st_name%' ";
+            $and_status = '1';
+        }
+        if(!empty($batch) ){
+          if($and_status == '1'){
+            $q .= " AND ";
+          }
+          $q .= " `batch` = '$batch' ";
+          $and_status = '1';
+        }
+        if(!empty($branch) ){
+            if($and_status == '1'){
+              $q .= " AND ";
+            }
+            $q .= " `discipline` IN (SELECT `id` FROM `discipline` WHERE `branch` ='$branch') ";
+            $and_status = '1';
+        }
+        if(!empty($semester) ){
+            if($and_status == '1'){
+              $q .= " AND ";
+            }
+            $q .= " `id` IN (SELECT `student_id` FROM `student_semester` WHERE `semester_number` = '$semester' AND `status` = '1') ";
+            $and_status = '1';
+        }
+        if(!empty($discipline) ){
+            if($and_status == '1'){
+              $q .= " AND ";
+            }
+            $q .= " `discipline` = '$discipline' ";
+            $and_status = '1';
+        }
+    }
+    // echo "query ".$q ;
+    // die();
+    $ret=mysqli_query($con,$q); 
+    $count = 1;
+    while ($row=mysqli_fetch_array($ret)) 
+    {
+      $student_id = $row['id'];
+      $discipline = $row['discipline'];
+      $check_semester = mysqli_fetch_array(mysqli_query($con,"SELECT * FROM `student_semester` WHERE `student_id` = '$student_id' ORDER BY created_on DESC LIMIT 1"));
+      if(!empty($check_semester)){
+        $semester = $check_semester['semester_number'];
+      }
+      else{
+        $semester = NULL;
+      }
+      $check_discipline = mysqli_fetch_array(mysqli_query($con,"SELECT * FROM `discipline` WHERE `id` = '$discipline'"));
+      $discipline_name = $check_discipline['discipline_name'];
+      $discipline_branch= $check_discipline['branch'];
+      $discipline_program = $check_discipline['program'];
+      ?>
+      <tr>
+        <td><input type="checkbox" name="student_ids[]" value="<?=$student_id?>"></td>
+        <td><?=$count?></td>
+        <td>
+          <p class="mb-0 text-sm"><?=$row['id']?></p>
+        </td>
+        <td>
+          <img src="../../<?=$row['picture_path']?>" height="45" width="45">
+        </td>
+        <td>
+          <p class="mb-0 text-sm"><?=$row['student_name']?></p>
+        </td>
+        <td>
+          <p class="mb-0 text-sm"><?=$row['father_name']?></p>  
+        </td>
+        <td>
+          <p class="mb-0 text-sm"><?=$row['phone']?></p></td>
+        <td>
+          <p class="mb-0 text-sm"><?=$row['batch']?></p>  
+        </td>
+        <td>
+          <p class="mb-0 text-sm"><?=$discipline_name?></p>
+        </td>
+        <td>
+          <p class="mb-0 text-sm"><?=$discipline_branch?></p>
+        </td>
+        <td>
+          <p class="mb-0 text-sm"><?=$discipline_program?></p>
+        </td>
+        <td>
+          <p class="mb-0 text-sm"><?=$semester?></p>
+        </td>
+        <td>
+          <?php
+          if($row['status'] == '1'){
+            ?>
+              <p class="mb-0 text-white bg-success text-sm p-2 text-center">Active</p>
+            <?php
+          }elseif($row['status'] == '2'){
+            ?>
+              <p class="mb-0 text-white bg-danger text-sm p-2 text-center">InActive</p>
+            <?php
+          }
+        ?>
+        </td>
+        <td>
+          <div>
+            <button class="btn btn-sm btn-warning" onclick="edit_student_detail(<?=$student_id?>)" data-bs-toggle="modal" data-bs-target="#edit_student_modal"><i class="bi bi-pencil-square"></i></button>
+            <button class="btn btn-sm btn-danger" onclick="delete_student(<?=$student_id?>)"><i class="bi bi-person-x-fill"></i></button>
+          </div>
+        </td>
+        
+      
+      </tr>
+      <?php
+      $count++;
+    }
+    
+    ?>
+    
+    
+  </tbody>
+  
+</table>
+
+<?php
+}
+
 
 ?>
 

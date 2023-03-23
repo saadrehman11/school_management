@@ -7,8 +7,11 @@ $type = $_REQUEST['type'];
 if($type=="101"){
 
     $st_name = $_POST['st_name'];
+    $batch = $_POST['batch'];
     $branch = $_POST['branch'];
-    $flag = $_POST['flag'];
+    $semester = $_POST['semester'];
+    $discipline = $_POST['discipline'];
+    $and_status = '0';
 ?>
 <div class="table-responsive">
   <table class="table table-striped datatable " id="students_fee_table">
@@ -26,27 +29,53 @@ if($type=="101"){
       <th scope="col">Program</th>
       <th scope="col">Semester</th>
       <th scope="col">Status</th>
-      <th scope="col">Details</th>
-      
+      <th scope="col">Action</th>
     </tr>
   </thead>
   <tbody>
     <?php
     
-    $q = "SELECT * FROM `student` ";
-    if(!empty($st_name) || !empty($branch)){
+    $q = "SELECT * FROM `student`";
+    if(!empty($st_name) || !empty($batch) || !empty($branch) || !empty($semester) || !empty($discipline)){ 
         $q .= " WHERE ";
-        if(!empty($st_name) && !empty($branch)){
-            $q .= " student_name LIKE '%$st_name%' AND `discipline` IN (SELECT `id` FROM `discipline` WHERE `branch` ='$branch') "; 
-        }
-        elseif(!empty($st_name) ){
+        // if(!empty($st_name) && !empty($branch)){
+        //     $q .= " student_name LIKE '%$st_name%' AND `discipline` IN (SELECT `id` FROM `discipline` WHERE `branch` ='$branch') "; 
+        // }
+        if(!empty($st_name) ){
             $q .= " student_name LIKE '%$st_name%' ";
+            $and_status = '1';
         }
-        elseif(!empty($branch) ){
+        if(!empty($batch) ){
+          if($and_status == '1'){
+            $q .= " AND ";
+          }
+          $q .= " `batch` = '$batch' ";
+          $and_status = '1';
+        }
+        if(!empty($branch) ){
+            if($and_status == '1'){
+              $q .= " AND ";
+            }
             $q .= " `discipline` IN (SELECT `id` FROM `discipline` WHERE `branch` ='$branch') ";
+            $and_status = '1';
+        }
+        if(!empty($semester) ){
+            if($and_status == '1'){
+              $q .= " AND ";
+            }
+            $q .= " `id` IN (SELECT `student_id` FROM `student_semester` WHERE `semester_number` = '$semester' AND `status` = '1') ";
+            $and_status = '1';
+        }
+        if(!empty($discipline) ){
+            if($and_status == '1'){
+              $q .= " AND ";
+            }
+            $q .= " `discipline` = '$discipline' ";
+            $and_status = '1';
         }
     }
-
+    // echo "query ".$q ;
+    // die();
     $ret=mysqli_query($con,$q); 
     $count = 1;
     while ($row=mysqli_fetch_array($ret)) 
@@ -97,7 +126,7 @@ if($type=="101"){
           <?php
           if($row['status'] == '1'){
             ?>
-              <p class="text-white bg-success text-sm p-1 text-center">Active</p>
+              <p class="text-white bg-success text-sm px-1 text-center">Active</p>
             <?php
           }elseif($row['status'] == '2'){
             ?>
@@ -106,42 +135,27 @@ if($type=="101"){
           }
         ?>
         </td>
-        
-        <?php
-        if($flag == '1'){
-          ?>
+      
           <td>
-            <div>
+            <div class="p-1">
             <button class="btn btn-sm btn-warning" onclick="see_remaining_fee_details(<?=$student_id?>)" data-bs-toggle="modal" data-bs-target="#submit_fee_modal">Submit Fee</button>
             </div>
-          </td>
-          <?php
-        }
-        else{
-          ?>
-          <td>
-            <div>
+          
+            <div class="p-1">
               <a class="btn btn-primary btn-sm" data-bs-target="#student_row<?=$student_id?>" data-bs-toggle="collapse" href="#" onclick="see_details(<?=$student_id?>)"><i class="bi bi-clipboard-check"></i> Details</a>
             </div>
           </td>
-          <?php
-        }
-        ?>
+         
         
       </tr>
 
-      <?php
-      if($flag != '1'){
-        ?>
         <tr>
         <td colspan="13">
           <div class="collapse" id="student_row<?=$student_id?>">
           </div>
         </td>
       </tr>
-        <?php
-      }
-      ?>
+       
       
       <?php
       $count++;

@@ -16,9 +16,19 @@
   <script src="../../assets/vendor/chart.js/chart.umd.js"></script>
   <script src="../../assets/vendor/echarts/echarts.min.js"></script>
   <script src="../../assets/vendor/quill/quill.min.js"></script>
-  <script src="../../assets/vendor/simple-datatables/simple-datatables.js"></script>
+  <!-- <script src="../../assets/vendor/simple-datatables/simple-datatables.js"></script> -->
   <script src="../../assets/vendor/tinymce/tinymce.min.js"></script>
   <script src="../../assets/vendor/php-email-form/validate.js"></script>
+
+    <!-- Optional JS -->
+    <script src="../../assets/vendor/datatables.net/js/jquery.dataTables.min.js"></script>
+  <script src="../../assets/vendor/datatables.net-bs4/js/dataTables.bootstrap4.min.js"></script>
+  <script src="../../assets/vendor/datatables.net-buttons/js/dataTables.buttons.min.js"></script>
+  <script src="../../assets/vendor/datatables.net-buttons-bs4/js/buttons.bootstrap4.min.js"></script>
+  <script src="../../assets/vendor/datatables.net-buttons/js/buttons.html5.min.js"></script>
+  <script src="../../assets/vendor/datatables.net-buttons/js/buttons.flash.min.js"></script>
+  <script src="../../assets/vendor/datatables.net-buttons/js/buttons.print.min.js"></script>
+  <script src="../../assets/vendor/datatables.net-select/js/dataTables.select.min.js"></script>
 
   <!-- Template Main JS File -->
   <script src="../../assets/js/main.js"></script>

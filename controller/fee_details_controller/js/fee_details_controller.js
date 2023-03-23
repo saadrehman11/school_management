@@ -1,7 +1,10 @@
-function load_students_data(flag) {
+function load_students_data() {
     document.getElementById("search_submit_btn").innerHTML='<i class="bi bi-arrow-repeat"></i>';
     var st_name = $("#student_name").val();
     var branch = $("#branch").val();
+    var batch = $("#batch").val();
+    var semester = $("#semester").val();
+    var discipline = $("#discipline").val();
     $.ajax({    
         type: "POST",
         url: "../../controller/fee_details_controller/php/fee_details_controller.php",   
@@ -9,12 +12,14 @@ function load_students_data(flag) {
             type:101,
             st_name:st_name,
             branch:branch,
-            flag:flag,
+            batch:batch,
+            semester:semester,
+            discipline:discipline,
         },               
         success: function(data){ 
         //   console.log(data)
           $("#fee_table_div").html(data);
-          document.getElementById("search_submit_btn").innerHTML='Submit';
+          document.getElementById("search_submit_btn").innerHTML='Search';
         }
     });
 }
