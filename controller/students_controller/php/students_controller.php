@@ -191,7 +191,7 @@ if($type == "102"){
       $discipline_program = $check_discipline['program'];
       ?>
       <tr>
-        <td><input type="checkbox" name="student_ids[]" value="<?=$student_id?>"></td>
+        <td><input type="checkbox" name="student_ids[]" id="student_ids"  value="<?=$student_id?>"></td>
         <td><?=$count?></td>
         <td>
           <p class="mb-0 text-sm"><?=$row['id']?></p>
@@ -256,6 +256,32 @@ if($type == "102"){
 </table>
 
 <?php
+}
+
+// add hoa to selected students
+
+if($type == "103"){
+  // print_r($_POST);
+  date_default_timezone_set('Asia/Karachi');
+  $date_and_time = date("Y-m-d H:i:s");
+
+  $hoa_id = $_POST['hoa_id'];
+  $check_hoa = mysqli_fetch_array(mysqli_query($con,"SELECT * FROM `head_of_accounts` WHERE `id` ='$hoa_id'"));
+  $get_amount = $check_hoa['amount'];
+  if(!empty($_POST['student_ids'])){
+    foreach($_POST['student_ids'] as $single_student_id){
+
+      $check_semester = mysqli_fetch_array(mysqli_query($con,"SELECT * FROM `student_semester` WHERE `student_id`='$single_student_id' AND `status` ='1' ORDER BY id DESC LIMIT 1"));
+      $get_semester = $check_semester['semester_number'];
+
+      $addFeeRecord=mysqli_query($con, "INSERT INTO `fee_record`( `student_id`, `hoa_id`, `semester`, `total_amount`, `created_on`) VALUES ('$single_student_id','$hoa_id','$get_semester','$get_amount','$date_and_time')");
+    }
+    echo json_encode(['Status_Code'=>100,'msg'=>'Successfully added Head of Account']);
+  }
+  else{
+    echo json_encode(['Status_Code'=>300,'msg'=>'No students selected']);
+  }
+
 }
 
 

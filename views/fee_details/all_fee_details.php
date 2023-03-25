@@ -3,23 +3,23 @@ include '../../includes/header.php';
 include '../../includes/sidebar.php';
 ?>  
 <main id="main" class="main">
-
+<div class="d-flex justify-content-center"><h2>Fee Details</h2></div>
     <div class="container my-3">
         <div class="row">
-            <div class="col-12 col-md-6 py-1">
+            <div class="col-12 col-md-2 py-1">
                 <input class="form-control" name="student_name" id="student_name" placeholder="Write Student Name" autocomplete="off" />
             </div>
-            <div class="col-12 col-md-4 py-1">
+            <div class="col-12 col-md-2 py-1">
                 <input class="form-control" name="batch" id="batch" placeholder="Write batch" autocomplete="off" />
             </div>
-            <div class="col-12 col-md-3 py-1">
+            <div class="col-12 col-md-2 py-1">
                 <select class="form-control" name="branch" id="branch">
                     <option value="" selected>Select</option>
                     <option value="nihms">NIHMS</option>
                     <option value="ncn">NCN</option>
                 </select>
             </div>
-            <div class="col-12 col-md-3 py-1">
+            <div class="col-12 col-md-2 py-1">
                 <select class="form-control" name="semester" id="semester">
                     <option value="" selected>Semester</option>
                     <option value="1">1</option>
@@ -32,7 +32,7 @@ include '../../includes/sidebar.php';
                     <option value="8">8</option>
                 </select>
             </div>
-            <div class="col-12 col-md-3 py-1">
+            <div class="col-12 col-md-2 py-1">
                 <select class="form-control" name="discipline" id="discipline">
                 <option value="" selected>Discipline</option>
                     <?php 

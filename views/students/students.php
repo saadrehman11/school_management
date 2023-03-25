@@ -7,20 +7,20 @@ include '../../includes/sidebar.php';
 
   <div class="container my-3">
         <div class="row">
-            <div class="col-12 col-md-6 py-1">
+            <div class="col-12 col-md-2 py-1">
                 <input class="form-control" name="student_name" id="student_name" placeholder="Write Student Name" autocomplete="off" />
             </div>
-            <div class="col-12 col-md-4 py-1">
+            <div class="col-12 col-md-2 py-1">
                 <input class="form-control" name="batch" id="batch" placeholder="Write batch" autocomplete="off" />
             </div>
-            <div class="col-12 col-md-3 py-1">
+            <div class="col-12 col-md-2 py-1">
                 <select class="form-control" name="branch" id="branch">
                     <option value="" selected>Select</option>
                     <option value="nihms">NIHMS</option>
                     <option value="ncn">NCN</option>
                 </select>
             </div>
-            <div class="col-12 col-md-3 py-1">
+            <div class="col-12 col-md-2 py-1">
                 <select class="form-control" name="semester" id="semester">
                     <option value="" selected>Semester</option>
                     <option value="1">1</option>
@@ -33,7 +33,7 @@ include '../../includes/sidebar.php';
                     <option value="8">8</option>
                 </select>
             </div>
-            <div class="col-12 col-md-3 py-1">
+            <div class="col-12 col-md-2 py-1">
                 <select class="form-control" name="discipline" id="discipline">
                 <option value="" selected>Discipline</option>
                     <?php 
@@ -55,12 +55,19 @@ include '../../includes/sidebar.php';
     </div>
 
   <div class="container pb-4">
-    <div class="row ">
-      <div class="col-12">
-        <input class="check-all mx-2" type="checkbox" name="all_students" id="all_students">
-        <label class="mx-2" for="all_students">Select All Students</label>
+    <div class="col-12 col-md-6">
+      <div class="d-flex justify-content-around">
+        <div>
+          <input type="checkbox" class="check-all" id="all_students"/>
+          <label class="mx-2" for="all_students">Select All Students</label>
+        </div>
+        <div>
+          <button class="btn btn-info" data-bs-toggle="modal" data-bs-target="#add_hod_modal">Add Head of Account</button>
+        </div>
       </div>
     </div>
+    <div class="col-12 col-md-6"></div>
+    
   </div>
   
 <div class="container-fluid">
@@ -141,7 +148,6 @@ include '../../includes/sidebar.php';
                       while ($row=mysqli_fetch_array($ret)) 
                       {
                           ?>
-                          
                           <div class="col-12 col-md-6 form-group py-3">
                               <div class="custom-control custom-radio">
                                   <input class="custom-control-input" type="radio" id="discipline<?=$row['id']?>" name="discipline" value="<?=$row['id']?>" required>
@@ -149,7 +155,6 @@ include '../../includes/sidebar.php';
                               </div>
                           </div>
                           <?php
-
                       }
                       ?>
                   </div>
@@ -190,64 +195,83 @@ include '../../includes/sidebar.php';
 </div>
 
 
-<!-- Edit Student Modal-->
+<!-- ADD HOD Modal-->
+
+<div class="modal fade" id="add_hod_modal" tabindex="-1" style="min-height:200px">
+  <div class="modal-dialog modal-dialog-centered modal-xl">
+    <div class="modal-content">
+ 
+      <div class="modal-body">
+          <div class="container">
+            <div class="row py-4">
+              <h4>Add Head of Account to the Selected Students</h4>
+            </div>
+            <div class="row py-4">
+              <div class="col-12 col-md-6">
+                <select class="form-control" id="hoa_id" name="hoa_id">
+                  <option value="">Select Head Of Account</option>
+                <?php
+                  $ret_hoa=mysqli_query($con,"SELECT * FROM `head_of_accounts` WHERE `status` = '1'"); 
+                  while ($ret_hoa_row=mysqli_fetch_array($ret_hoa)) 
+                  {
+                    ?>
+                    <option value="<?=$ret_hoa_row['id']?>"><?=$ret_hoa_row['account_name']?></option>
+                    <?php
+                  }
+                  ?>
+                </select>
+              </div>
+              <div class="col-12 col-md-6">
+                <button onclick="add_head_of_account()" class="btn btn-primary">Submit</button>
+              </div>
+              
+            </div>
+          </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
 <?php
 include '../../includes/footer.php';
 ?>  
-<script>
-  
-    // DataTable
-    // var table = $('#students_table').DataTable({
-      // "ordering": false,
-      // paging : false,
-      // initComplete: function(){
-      //     // Apply the search
-      //     this.api().columns().every(function(){
-      //         var that = this;
-      //         $('input', this.footer()).on('keyup change clear', function(){
-      //             if(that.search() !== this.value ){
-      //                 that.search(this.value).draw();
-      //             }
-      //         });
-      //     });
-      // }
-    // });
-
-</script>
 
 <script src="../../controller/students_controller/js/students_controller.js"></script>
 
-
-      
 <script>
   load_students_data() 
 
+
   $(function() {
-    // When the "Check All" checkbox is clicked
-    $('.check-all').click(function() {
-      // Get all the checkboxes in the same div as the "specific_div"
-      var checkboxes = $('#students_table').find(':checkbox');
-      // Set their checked state to match the "Check All" checkbox
-      checkboxes.prop('checked', $(this).prop('checked'));
-    });
-    
-    // When any other checkbox is clicked
-    $('#students_table :checkbox').not('.check-all').click(function() {
-      // If all the other checkboxes are checked, check the "Check All" checkbox
-      if ($('#students_table :checkbox').not('.check-all').length == $('#students_table :checkbox:checked').not('.check-all').length) {
-        $('.check-all').prop('checked', true);
-      } else {
-        $('.check-all').prop('checked', false);
-      }
-    });
-    
-    // Check the status of the checkboxes at page load
-    if ($('#students_table :checkbox').not('.check-all').length == $('#students_table :checkbox:checked').not('.check-all').length) {
+  // When the "Check All" checkbox is clicked
+  $('.check-all').click(function() {
+    // Get all the checkboxes in the table
+    var checkboxes = $('#students_table').find(':checkbox');
+    // Set their checked state to match the "Check All" checkbox
+    checkboxes.prop('checked', $(this).prop('checked'));
+  });
+
+  // When any other checkbox is clicked
+  $(document).on('click', '#students_table :checkbox:not(.check-all)', function() {
+    // If all the other checkboxes are checked, check the "Check All" checkbox
+    if ($('#students_table :checkbox:not(.check-all)').length === $('#students_table :checkbox:not(.check-all):checked').length) {
       $('.check-all').prop('checked', true);
     } else {
       $('.check-all').prop('checked', false);
     }
   });
 
+  // Check the status of the checkboxes at page load
+  if ($('#students_table :checkbox:not(.check-all):checked').length === 0) {
+    $('.check-all').prop('checked', false);
+  }
+});
 
-      </script>
+
+
+
+
+
+
+</script>

@@ -190,7 +190,7 @@ if($type=="102"){
   <tbody class="bg-white text-dark">
   <?php
 
-  $ret=mysqli_query($con,"SELECT * FROM `fee_record` WHERE `student_id` = '$student_id' ORDER BY semester DESC"); 
+  $ret=mysqli_query($con,"SELECT * FROM `fee_record` WHERE `student_id` = '$student_id' ORDER BY id DESC"); 
   $count =1;
   while ($row=mysqli_fetch_array($ret)) 
   {
@@ -242,7 +242,7 @@ if($type=="103"){
   <tbody class="bg-white text-dark">
   <?php
 
-  $ret=mysqli_query($con,"SELECT * FROM `fee_record` WHERE `student_id` = '$student_id' ORDER BY semester DESC"); 
+  $ret=mysqli_query($con,"SELECT * FROM `fee_record` WHERE `student_id` = '$student_id' ORDER BY id DESC"); 
   $count =1;
   while ($row=mysqli_fetch_array($ret)) 
   {
