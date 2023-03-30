@@ -33,6 +33,7 @@ include '../../includes/dbconnection.php';
   <link rel="stylesheet" href="../../assets/vendor/datatables.net-buttons-bs4/css/buttons.bootstrap4.min.css">
   <link rel="stylesheet" href="../../assets/vendor/datatables.net-select-bs4/css/select.bootstrap4.min.css">
   <!-- Template Main CSS File -->
+  <link href="https://cdn.rawgit.com/harvesthq/chosen/gh-pages/chosen.min.css" rel="stylesheet"/>
   <link href="../../assets/css/style.css" rel="stylesheet">
 
 </head>

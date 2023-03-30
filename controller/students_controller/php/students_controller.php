@@ -285,5 +285,48 @@ if($type == "103"){
 }
 
 
+// promote selected students
+
+if($type == "104"){
+  // print_r($_POST);
+
+  // die();
+  date_default_timezone_set('Asia/Karachi');
+  $date_and_time = date("Y-m-d H:i:s");
+
+
+  if(!empty($_POST['student_ids'])){
+    foreach($_POST['student_ids'] as $single_student_id){
+
+      $check_semester = mysqli_fetch_array(mysqli_query($con,"SELECT * FROM `student_semester` WHERE `student_id`='$single_student_id' AND `status` ='1' ORDER BY id DESC LIMIT 1"));
+      $get_semester = $check_semester['semester_number'];
+
+      $check_stud_discipline = mysqli_fetch_array(mysqli_query($con,"SELECT * FROM `student` WHERE `id` = '$single_student_id' AND `status` = '1'"));
+      $get_stud_discipline = $check_stud_discipline['discipline'];
+      
+      $check_discipline = mysqli_fetch_array(mysqli_query($con,"SELECT * FROM `discipline` WHERE `id` = '$get_stud_discipline' AND `status` = '1'"));
+      $num_of_semesters = $check_discipline['num_of_semesters'];
+      
+      if(intval($num_of_semesters) > intval($get_semester)){
+        $new_semester = (intval($get_semester))+1;
+        $promoteSemester=mysqli_query($con, "INSERT INTO `student_semester`( `semester_number`, `student_id`, `created_on`) VALUES ('$new_semester','$single_student_id','$date_and_time')");
+
+        foreach($_POST['hoa_id'] as $single_hoa_id){
+          $check_hoa = mysqli_fetch_array(mysqli_query($con,"SELECT * FROM `head_of_accounts` WHERE `id` ='$single_hoa_id'"));
+          $get_amount = $check_hoa['amount'];
+
+          $addFeeRecord=mysqli_query($con, "INSERT INTO `fee_record`( `student_id`, `hoa_id`, `semester`, `total_amount`, `created_on`) VALUES ('$single_student_id','$single_hoa_id','$new_semester','$get_amount','$date_and_time')");
+        }
+      }
+    }
+    echo json_encode(['Status_Code'=>100,'msg'=>'Successfully added Head of Account']);
+  }
+  else{
+    echo json_encode(['Status_Code'=>300,'msg'=>'No students selected']);
+  }
+
+}
+
+
 ?>
 

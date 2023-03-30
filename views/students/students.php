@@ -2,6 +2,11 @@
 include '../../includes/header.php';
 include '../../includes/sidebar.php';
 ?>  
+<style>
+  .chosen-container{
+  width: 100% !important;
+}
+</style>
 <main id="main" class="main">
   <div class="d-flex justify-content-center"><h2>All Students</h2></div>
 
@@ -63,6 +68,9 @@ include '../../includes/sidebar.php';
         </div>
         <div>
           <button class="btn btn-info" data-bs-toggle="modal" data-bs-target="#add_hod_modal">Add Head of Account</button>
+        </div>
+        <div>
+          <button class="btn btn-info" data-bs-toggle="modal" data-bs-target="#promote_modal">Promote</button>
         </div>
       </div>
     </div>
@@ -195,6 +203,43 @@ include '../../includes/sidebar.php';
 </div>
 
 
+<!-- Promote Modal-->
+
+<div class="modal fade" id="promote_modal" tabindex="-1" style="min-height:200px">
+  <div class="modal-dialog modal-dialog-centered modal-xl">
+    <div class="modal-content">
+ 
+      <div class="modal-body">
+          <div class="container">
+            <div class="row py-4">
+              <h4>Add Head of Account to the Selected Students</h4>
+            </div>
+            <div class="row py-4">
+              <div class="col-12 col-md-6">
+                <select class=" chosen-select" id="hoaId" name="hoaId" multiple>
+                  <option value="">Select Head Of Account</option>
+                <?php
+                  $ret_hoa=mysqli_query($con,"SELECT * FROM `head_of_accounts` WHERE `status` = '1'"); 
+                  while ($ret_hoa_row=mysqli_fetch_array($ret_hoa)) 
+                  {
+                    ?>
+                    <option value="<?=$ret_hoa_row['id']?>"><?=$ret_hoa_row['account_name']?></option>
+                    <?php
+                  }
+                  ?>
+                </select>
+              </div>
+              <div class="col-12 col-md-6">
+                <button onclick="promote_students()" class="btn btn-primary">Promote</button>
+              </div>
+              
+            </div>
+          </div>
+      </div>
+    </div>
+  </div>
+</div>
+
 <!-- ADD HOD Modal-->
 
 <div class="modal fade" id="add_hod_modal" tabindex="-1" style="min-height:200px">
@@ -241,6 +286,12 @@ include '../../includes/footer.php';
 
 <script>
   load_students_data() 
+
+  window.onload = (event) => {
+    $("#hoaId").chosen({
+      no_results_text: "Oops, nothing found!"
+    })
+};
 
 
   $(function() {

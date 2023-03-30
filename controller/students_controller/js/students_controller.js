@@ -59,8 +59,6 @@ function add_head_of_account(){
     else{
         let text = "Are you sure you want to add the selected Head of account to all the selected Students?";
         if (confirm(text) == true) {
-            
-            
             $.ajax({    
                 type: "POST",
                 url: "../../controller/students_controller/php/students_controller.php",   
@@ -73,6 +71,44 @@ function add_head_of_account(){
                     console.log(data)
                     var resp = JSON.parse(data);
                     alert(resp.msg) 
+                    location.reload();
+                }
+            });
+        } else {
+          text = "You canceled!";
+        }
+    }
+    
+
+}
+
+
+function promote_students(){
+    var hoa_id = $('#hoaId').val();
+    var studentIds = $('input[name="student_ids[]"]:checked').map(function() {
+        return $(this).val();
+      }).get();
+    if(studentIds == '' || hoa_id == ''){
+        alert("Students And Head Of Account cannot be empty") 
+    } 
+    else{
+        let text = "Are you sure you want to Promote & add the selected Head of account to the selected Students?";
+        if (confirm(text) == true) {
+            
+            
+            $.ajax({    
+                type: "POST",
+                url: "../../controller/students_controller/php/students_controller.php",   
+                data:{ 
+                    student_ids:studentIds,
+                    hoa_id:hoa_id,
+                    type:104,
+                },               
+                success: function(data){ 
+                    console.log(data)
+                    var resp = JSON.parse(data);
+                    alert(resp.msg) 
+                    location.reload();
                 }
             });
         } else {
