@@ -224,80 +224,164 @@ if($type=="102"){
 if($type=="103"){
   $student_id = $_POST['student_id'];
   ?>
-  <div class="table-responsive">
-  <table class="table" id="students_fee_detail_table">
-  <thead class="bg-secondary text-white">
-    <tr>
-      <th scope="col">#</th>
-      <th scope="col">Student ID</th>
-      <th scope="col">Student Name</th>
-      <th scope="col">Head of Account</th>
-      <th scope="col">Semester</th>
-      <th scope="col">Total Amount</th>
-      <th scope="col">Amount Paid</th>
-      <th scope="col" class="w-auto">Paying Amount</th>
-      <th scope="col">Submit</th>
-    </tr>
-  </thead>
-  <tbody class="bg-white text-dark">
-  <?php
+  <ul class="nav nav-tabs d-flex mb-2" id="myTabjustified" role="tablist">
+    <li class="nav-item flex-fill" role="presentation">
+      <button class="nav-link w-100 active" id="home-tab" data-bs-toggle="tab" data-bs-target="#home-justified" type="button" role="tab" aria-controls="home" aria-selected="true">Fee with Head of Accounts</button>
+    </li>
+    <li class="nav-item flex-fill" role="presentation">
+      <button class="nav-link w-100" id="total-tab" data-bs-toggle="tab" data-bs-target="#total-justified" type="button" role="tab" aria-controls="profile" aria-selected="false">Total Fee</button>
+    </li>
+  </ul>
 
-  $ret=mysqli_query($con,"SELECT * FROM `fee_record` WHERE `student_id` = '$student_id' ORDER BY id DESC"); 
-  $count =1;
-  while ($row=mysqli_fetch_array($ret)) 
-  {
-    $id = $row['id'];
-    $hoa_id = $row['hoa_id'];
-    $check_student = mysqli_fetch_array(mysqli_query($con,"SELECT * FROM `student` WHERE `id` = '$student_id'"));
-    $StudentName = $check_student['student_name'];
-
-    $check_hoa = mysqli_fetch_array(mysqli_query($con,"SELECT * FROM `head_of_accounts` WHERE `id` = '$hoa_id'"));
-    $HOA_Name = $check_hoa['account_name'];
-    ?>
-    <tr>
-    
-      <td>
-        <p class="text-sm"><?=$count?></p>
-        
-      </td>
-      <td>
-        <p class="text-sm"><?=$student_id?></p>
-      </td>
-      <td>
-        <p class="text-sm"><?=$StudentName?></p>
-      </td>
-      <td>
-        <p class="text-sm"><?=$HOA_Name?></p>
-      </td>
-      <td>
-        <p class="text-sm"><?=$row['semester']?></p>
-      </td>
-      <td>
-      <p class="text-sm"> <?=$row['total_amount']?></p>
-      </td>
-      <td>
-      <p class="text-sm"><?=$row['amount_paid']?></p>
-      </td>
-      <td style="width:10vw">
-        <div >
-          <input class="form-control" type="number" name="paying_amount_input<?=$id?>" id="paying_amount_input<?=$id?>" <?php if(intval($row['amount_paid']) >= intval($row['total_amount']) ){echo 'disabled';}?>>
-        </div>
-      </td>
-      <td>
-        <div>
-          <button type="button" class="btn btn-sm btn-primary" onclick="submit_paying_amount(<?=$id?>)" <?php if(intval($row['amount_paid']) >= intval($row['total_amount']) ){echo 'disabled';}?>>Submit</button>
-        </div>
-      </td>
-      
-    </tr>
+  <div class="tab-content pt-2" id="myTabjustifiedContent">
+    <div class="tab-pane fade show active" id="home-justified" role="tabpanel" aria-labelledby="home-tab">
+      <div class="table-responsive">
+    <table class="table" id="students_fee_detail_table">
+    <thead class="bg-secondary text-white">
+      <tr>
+        <th scope="col">#</th>
+        <th scope="col">Student ID</th>
+        <th scope="col">Student Name</th>
+        <th scope="col">Head of Account</th>
+        <th scope="col">Semester</th>
+        <th scope="col">Total Amount</th>
+        <th scope="col">Amount Paid</th>
+        <th scope="col" class="w-auto">Paying Amount</th>
+        <th scope="col">Submit</th>
+      </tr>
+    </thead>
+    <tbody class="bg-white text-dark">
     <?php
-    $count++;
-  }
-  ?>
-   </tbody>
-</table>
-</div>
+
+    $ret=mysqli_query($con,"SELECT * FROM `fee_record` WHERE `student_id` = '$student_id' ORDER BY id DESC"); 
+    $count =1;
+    while ($row=mysqli_fetch_array($ret)) 
+    {
+      $id = $row['id'];
+      $hoa_id = $row['hoa_id'];
+      $check_student = mysqli_fetch_array(mysqli_query($con,"SELECT * FROM `student` WHERE `id` = '$student_id'"));
+      $StudentName = $check_student['student_name'];
+
+      $check_hoa = mysqli_fetch_array(mysqli_query($con,"SELECT * FROM `head_of_accounts` WHERE `id` = '$hoa_id'"));
+      $HOA_Name = $check_hoa['account_name'];
+      ?>
+      <tr>
+        <td>
+          <p class="text-sm mb-0"><?=$count?></p>
+        </td>
+        <td>
+          <p class="text-sm mb-0"><?=$student_id?></p>
+        </td>
+        <td>
+          <p class="text-sm mb-0"><?=$StudentName?></p>
+        </td>
+        <td>
+          <p class="text-sm mb-0"><?=$HOA_Name?></p>
+        </td>
+        <td>
+          <p class="text-sm mb-0"><?=$row['semester']?></p>
+        </td>
+        <td>
+        <p class="text-sm mb-0"> <?=$row['total_amount']?></p>
+        </td>
+        <td>
+        <p class="text-sm mb-0"><?=$row['amount_paid']?></p>
+        </td>
+        <td style="width:10vw">
+          <div >
+            <input class="form-control py-0" type="number" name="paying_amount_input<?=$id?>" id="paying_amount_input<?=$id?>" <?php if(intval($row['amount_paid']) >= intval($row['total_amount']) ){echo 'disabled';}?>>
+          </div>
+        </td>
+        <td>
+          <div>
+            <button type="button" class="btn btn-sm btn-primary" onclick="submit_paying_amount(<?=$id?>)" <?php if(intval($row['amount_paid']) >= intval($row['total_amount']) ){echo 'disabled';}?>>Submit</button>
+          </div>
+        </td>
+        
+      </tr>
+      <?php
+      $count++;
+    }
+    ?>
+    </tbody>
+  </table>
+  </div>
+    </div>
+    <div class="tab-pane fade" id="total-justified" role="tabpanel" aria-labelledby="total-justified">
+    <table class="table" id="students_fee_detail_table2">
+      <thead>
+        <tr>
+        <th scope="col">#</th>
+        <th scope="col">Student ID</th>
+        <th scope="col">Student Name</th>
+        <th scope="col">Semester</th>
+        <th scope="col">Total Amount</th>
+        <th scope="col">Amount Paid</th>
+        <th scope="col" class="w-auto">Paying Amount</th>
+        <th scope="col">Submit</th>
+        </tr>
+      </thead>
+      <tbody>
+      <?php
+
+    $ret2=mysqli_query($con,"SELECT *,sum(`total_amount`) as total_amount_semester,sum(`amount_paid`) as total_paid_semester FROM `fee_record` WHERE `student_id` = '$student_id' GROUP BY semester"); 
+    $counter =1;
+    while ($row2=mysqli_fetch_array($ret2)) 
+    {
+      $id = $row2['id'];
+      $hoa_id = $row2['hoa_id'];
+      $check_student = mysqli_fetch_array(mysqli_query($con,"SELECT * FROM `student` WHERE `id` = '$student_id'"));
+      $StudentName = $check_student['student_name'];
+
+      $check_hoa = mysqli_fetch_array(mysqli_query($con,"SELECT * FROM `head_of_accounts` WHERE `id` = '$hoa_id'"));
+      $HOA_Name = $check_hoa['account_name'];
+      ?>
+      <tr>
+        <td>
+          <p class="text-sm mb-0"><?=$counter?></p>
+        </td>
+        <td>
+          <p class="text-sm mb-0"><?=$student_id?></p>
+        </td>
+        <td>
+          <p class="text-sm mb-0"><?=$StudentName?></p>
+        </td>
+ 
+        <td>
+          <p class="text-sm mb-0"><?=$row2['semester']?></p>
+        </td>
+        <td>
+        <p class="text-sm mb-0"> <?=$row2['total_amount_semester']?></p>
+        </td>
+        <td>
+        <p class="text-sm mb-0"><?=$row2['total_paid_semester']?></p>
+        </td>
+        <td style="width:10vw">
+          <div >
+            <input class="form-control py-0" type="number" name="paying_amount_input<?=$id?>" id="paying_amount_input<?=$id?>" <?php if(intval($row2['total_paid_semester']) >= intval($row2['total_amount_semester']) ){echo 'disabled';}?>>
+          </div>
+        </td>
+        <td>
+          <div>
+            <button type="button" class="btn btn-sm btn-primary" onclick="submit_paying_amount(<?=$id?>)" <?php if(intval($row2['total_paid_semester']) >= intval($row2['total_amount_semester']) ){echo 'disabled';}?>>Submit</button>
+          </div>
+        </td>
+        
+      </tr>
+      <?php
+      $counter++;
+    }
+    ?>
+        
+      </tbody>
+    </table>
+    </div>
+  </div>
+
+  <!-- SELECT SUM(`total_amount`) FROM `fee_record` WHERE `student_id` = '9' AND `semester` = (SELECT MAX(`semester`) FROM `fee_record` WHERE `student_id` = '9') -->
+  <!-- SELECT sum(`total_amount`),semester FROM `fee_record` WHERE `student_id` = '10' GROUP BY semester -->
   <?php
+
 }
 
 
