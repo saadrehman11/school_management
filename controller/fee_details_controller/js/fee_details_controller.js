@@ -87,16 +87,11 @@ function load_outstanding_fee() {
         },             
         success: function(data){ 
 
-            // var res = JSON.parse(data)
-            // alert(res.msg);
-            // if(res.status_Code == 100){
-            //     see_remaining_fee_details(res.student_id)
-            // }
+            $("#fee_table_div").html(data);
         }
     });
 }
 function load_paid_fee() {
-    console.log("load_paid_fee")
     $.ajax({    
         type: "POST",
         url: "../../controller/fee_details_controller/php/fee_details_controller.php",   
@@ -105,11 +100,7 @@ function load_paid_fee() {
         },             
         success: function(data){ 
             
-            // var res = JSON.parse(data)
-            // alert(res.msg);
-            // if(res.status_Code == 100){
-            //     see_remaining_fee_details(res.student_id)
-            // }
+            $("#fee_table_div").html(data);
         }
     });
 }

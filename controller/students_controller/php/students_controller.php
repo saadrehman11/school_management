@@ -197,7 +197,16 @@ if($type == "102"){
           <p class="mb-0 text-sm"><?=$row['id']?></p>
         </td>
         <td>
-          <img src="../../<?=$row['picture_path']?>" height="45" width="45">
+          <?php 
+          if(!empty($row['picture_path'])){
+              ?>
+              <img src="../../<?=$row['picture_path']?>" height="45" width="45">
+              <?php
+          }
+          else{
+            echo '<img src="../../assets/images/profile_photo/user-icon.webp" height="45" width="45">';
+          }
+          ?>
         </td>
         <td>
           <p class="mb-0 text-sm"><?=$row['student_name']?></p>

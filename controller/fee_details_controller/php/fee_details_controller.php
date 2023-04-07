@@ -173,6 +173,8 @@ if($type=="101"){
 // load fee details
 if($type=="102"){
   $student_id = $_POST['student_id'];
+  $sum_total = 0 ;
+  $sum_paid = 0 ;
   ?>
   <div class="table-responsive">
   <table class="table" id="students_fee_detail_table">
@@ -203,17 +205,51 @@ if($type=="102"){
     ?>
     <tr>
       <td><?=$count?></td>
-      <td><?=$student_id?></td>
-      <td><?=$StudentName?></td>
+      <td>
+        <?php
+          if($count == 1){
+            ?>
+            <p class="text-sm mb-0"><?=$student_id?></p>
+            <?php
+          }
+          ?>
+        </td>
+        <td>
+        <?php
+          if($count == 1){
+            ?>
+            <p class="text-sm mb-0"><?=$StudentName?></p>
+            <?php
+          }
+          ?>
+          
+        </td>
       <td><?=$HOA_Name?></td>
       <td><?=$row['semester']?></td>
-      <td><?=$row['total_amount']?></td>
-      <td><?=$row['amount_paid']?></td>
+      <td>
+        <?php echo $row['total_amount'];
+      $sum_total = $sum_total + $row['total_amount'];
+        ?>
+      </td>
+      <td>
+      <?php echo $row['amount_paid'];
+      $sum_paid = $sum_paid + $row['amount_paid'];
+        ?>  
+      </td>
     </tr>
     <?php
     $count++;
   }
   ?>
+  <tr>
+    <td colspan="7">
+      Total: <?=$sum_total?>
+      <br>
+      Total Paid: <?=$sum_paid?>
+      <br>
+      Total Remaining: <?=($sum_total-$sum_paid)?>
+    </td>
+  </tr>
    </tbody>
 </table>
 </div>
@@ -223,6 +259,8 @@ if($type=="102"){
 // load remaining fee details
 if($type=="103"){
   $student_id = $_POST['student_id'];
+  $sum_total = 0 ;
+  $sum_paid = 0 ;
   ?>
   <ul class="nav nav-tabs d-flex mb-2" id="myTabjustified" role="tablist">
     <li class="nav-item flex-fill" role="presentation">
@@ -270,10 +308,23 @@ if($type=="103"){
           <p class="text-sm mb-0"><?=$count?></p>
         </td>
         <td>
-          <p class="text-sm mb-0"><?=$student_id?></p>
+        <?php
+          if($count == 1){
+            ?>
+            <p class="text-sm mb-0"><?=$student_id?></p>
+            <?php
+          }
+          ?>
         </td>
         <td>
-          <p class="text-sm mb-0"><?=$StudentName?></p>
+        <?php
+          if($count == 1){
+            ?>
+            <p class="text-sm mb-0"><?=$StudentName?></p>
+            <?php
+          }
+          ?>
+          
         </td>
         <td>
           <p class="text-sm mb-0"><?=$HOA_Name?></p>
@@ -282,10 +333,14 @@ if($type=="103"){
           <p class="text-sm mb-0"><?=$row['semester']?></p>
         </td>
         <td>
-        <p class="text-sm mb-0"> <?=$row['total_amount']?></p>
+          <?php echo '<p class="text-sm mb-0">'.$row['total_amount'].'</p>';
+          $sum_total = $sum_total + $row['total_amount'];
+          ?>
         </td>
         <td>
-        <p class="text-sm mb-0"><?=$row['amount_paid']?></p>
+          <?php echo '<p class="text-sm mb-0">'.$row['amount_paid'].'</p>';
+          $sum_paid = $sum_paid + $row['amount_paid'];
+          ?>
         </td>
         <td style="width:10vw">
           <div >
@@ -303,6 +358,15 @@ if($type=="103"){
       $count++;
     }
     ?>
+    <tr>
+    <td colspan="9">
+      Total: <?=$sum_total?>
+      <br>
+      Total Paid: <?=$sum_paid?>
+      <br>
+      Total Remaining: <?=($sum_total-$sum_paid)?>
+    </td>
+  </tr>
     </tbody>
   </table>
   </div>
@@ -341,12 +405,24 @@ if($type=="103"){
           <p class="text-sm mb-0"><?=$counter?></p>
         </td>
         <td>
-          <p class="text-sm mb-0"><?=$student_id?></p>
+          <?php
+          if($counter == 1){
+            ?>
+            <p class="text-sm mb-0"><?=$student_id?></p>
+            <?php
+          }
+          ?>
+          
         </td>
         <td>
-          <p class="text-sm mb-0"><?=$StudentName?></p>
+        <?php
+          if($counter == 1){
+            ?>
+            <p class="text-sm mb-0"><?=$StudentName?></p>
+            <?php
+          }
+          ?>
         </td>
- 
         <td>
           <p class="text-sm mb-0"><?=$row2['semester']?></p>
         </td>
@@ -372,7 +448,15 @@ if($type=="103"){
       $counter++;
     }
     ?>
-        
+        <tr>
+    <td colspan="9">
+      Total: <?=$sum_total?>
+      <br>
+      Total Paid: <?=$sum_paid?>
+      <br>
+      Total Remaining: <?=($sum_total-$sum_paid)?>
+    </td>
+  </tr>
       </tbody>
     </table>
     </div>
@@ -416,8 +500,274 @@ if($type=="104"){
 }
 
 // load outstanding fee
-if($type=="105"){}
+if($type=="105"){
+  
+?>
+<div class="table-responsive">
+<table class="table table-striped datatable " id="students_fee_table">
+<thead class="bg-dark text-white">
+  <tr>
+    <th scope="col">#</th>
+    <th scope="col">Student ID</th>
+    <th scope="col">Picture</th>
+    <th scope="col">Student Name</th>
+    <th scope="col">Father Name</th>
+    <th scope="col">Phone</th>
+    <th scope="col">Batch</th>
+    <th scope="col">Discipline</th>
+    <th scope="col">Branch</th>
+    <th scope="col">Program</th>
+    <th scope="col">Semester</th>
+    <th scope="col">Status</th>
+    <th scope="col">Action</th>
+  </tr>
+</thead>
+<tbody>
+  <?php
+  
+  $q = "SELECT `student_id`, semester, SUM(total_amount) AS total_amount, SUM(amount_paid) AS amount_paid_per_semester
+  FROM fee_record
+  GROUP BY student_id
+  HAVING SUM(amount_paid) < SUM(total_amount)";
+
+  $ret=mysqli_query($con,$q); 
+  $count = 1;
+  while ($row=mysqli_fetch_array($ret)) 
+  {
+    $student_id = $row['student_id'];
+    $check_student = mysqli_fetch_array(mysqli_query($con,"SELECT * FROM `student` WHERE `id` = '$student_id'"));
+    $discipline = $check_student['discipline'];
+    
+    $check_semester = mysqli_fetch_array(mysqli_query($con,"SELECT * FROM `student_semester` WHERE `student_id` = '$student_id' ORDER BY created_on DESC LIMIT 1"));
+    if(!empty($check_semester)){
+      $semester = $check_semester['semester_number'];
+    }
+    else{
+      $semester = NULL;
+    }
+    
+
+    $check_discipline = mysqli_fetch_array(mysqli_query($con,"SELECT * FROM `discipline` WHERE `id` = '$discipline'"));
+    $discipline_name = $check_discipline['discipline_name'];
+    $discipline_branch= $check_discipline['branch'];
+    $discipline_program = $check_discipline['program'];
+    ?>
+    <tr>
+      <td><?=$count?></td>
+      <td><?=$student_id?></td>
+      <td>
+      <?php
+          if(!empty($check_student['picture_path'])){
+            echo '<img src="../../'.$check_student['picture_path'].'" height="45" width="45">';
+          }
+          else{
+            echo '<img src="../../assets/images/profile_photo/user-icon.webp" height="45" width="45">';
+          }?>
+      </td>
+      <td>
+        <p class="text-sm"><?=$check_student['student_name']?></p></td>
+      <td>
+        <p class="text-sm"><?=$check_student['father_name']?></p>  
+      </td>
+      <td>
+        <p class="text-sm"><?=$check_student['phone']?></p></td>
+      <td>
+        <p class="text-sm"><?=$check_student['batch']?></p>  
+      </td>
+      <td>
+        <p class="text-sm"><?=$discipline_name?></p>
+      </td>
+      <td>
+        <p class="text-sm"><?=$discipline_branch?></p>
+      </td>
+      <td>
+        <p class="text-sm"><?=$discipline_program?></p>
+      </td>
+      <td>
+        <p class="text-sm"><?=$semester?></p>
+      </td>
+      <td>
+        <?php
+        if($check_student['status'] == '1'){
+          ?>
+            <p class="text-white bg-success text-sm px-1 text-center">Active</p>
+          <?php
+        }elseif($check_student['status'] == '2'){
+          ?>
+            <p class="text-white bg-danger text-sm px-1 text-center">InActive</p>
+          <?php
+        }
+      ?>
+      </td>
+    
+        <td>
+          <div class="p-1">
+          <button class="btn btn-sm btn-warning" onclick="see_remaining_fee_details(<?=$student_id?>)" data-bs-toggle="modal" data-bs-target="#submit_fee_modal">Submit Fee</button>
+          </div>
+        
+          <div class="p-1">
+            <a class="btn btn-primary btn-sm" data-bs-target="#student_row<?=$student_id?>" data-bs-toggle="collapse" href="#" onclick="see_details(<?=$student_id?>)"><i class="bi bi-clipboard-check"></i> Details</a>
+          </div>
+        </td>
+       
+      
+    </tr>
+
+      <tr>
+      <td colspan="13">
+        <div class="collapse" id="student_row<?=$student_id?>">
+        </div>
+      </td>
+    </tr>
+     
+    
+    <?php
+    $count++;
+  }
+  
+  ?>
+  
+  
+</tbody>
+</table>
+</div>
+  <?php
+}
 
 
 // load paid fee
-if($type=="106"){}
+if($type=="106"){
+ 
+  ?>
+  <div class="table-responsive">
+  <table class="table table-striped datatable " id="students_fee_table">
+  <thead class="bg-dark text-white">
+    <tr>
+      <th scope="col">#</th>
+      <th scope="col">Student ID</th>
+      <th scope="col">Picture</th>
+      <th scope="col">Student Name</th>
+      <th scope="col">Father Name</th>
+      <th scope="col">Phone</th>
+      <th scope="col">Batch</th>
+      <th scope="col">Discipline</th>
+      <th scope="col">Branch</th>
+      <th scope="col">Program</th>
+      <th scope="col">Semester</th>
+      <th scope="col">Status</th>
+      <th scope="col">Action</th>
+    </tr>
+  </thead>
+  <tbody>
+    <?php
+    
+    $q = "SELECT `student_id`, semester, SUM(total_amount) AS total_amount, SUM(amount_paid) AS amount_paid_per_semester
+    FROM fee_record
+    GROUP BY student_id
+    HAVING SUM(amount_paid) >= SUM(total_amount)";
+  
+    $ret=mysqli_query($con,$q); 
+    $count = 1;
+    while ($row=mysqli_fetch_array($ret)) 
+    {
+      $student_id = $row['student_id'];
+      $check_student = mysqli_fetch_array(mysqli_query($con,"SELECT * FROM `student` WHERE `id` = '$student_id'"));
+      $discipline = $check_student['discipline'];
+      
+      $check_semester = mysqli_fetch_array(mysqli_query($con,"SELECT * FROM `student_semester` WHERE `student_id` = '$student_id' ORDER BY created_on DESC LIMIT 1"));
+      if(!empty($check_semester)){
+        $semester = $check_semester['semester_number'];
+      }
+      else{
+        $semester = NULL;
+      }
+      
+  
+      $check_discipline = mysqli_fetch_array(mysqli_query($con,"SELECT * FROM `discipline` WHERE `id` = '$discipline'"));
+      $discipline_name = $check_discipline['discipline_name'];
+      $discipline_branch= $check_discipline['branch'];
+      $discipline_program = $check_discipline['program'];
+      ?>
+      <tr>
+        <td><?=$count?></td>
+        <td><?=$student_id?></td>
+        <td>
+          <?php
+          if(!empty($check_student['picture_path'])){
+            echo '<img src="../../'.$check_student['picture_path'].'" height="45" width="45">';
+          }
+          else{
+            echo '<img src="../../assets/images/profile_photo/user-icon.webp" height="45" width="45">';
+          }?>
+        </td>
+        <td>
+          <p class="text-sm"><?=$check_student['student_name']?></p></td>
+        <td>
+          <p class="text-sm"><?=$check_student['father_name']?></p>  
+        </td>
+        <td>
+          <p class="text-sm"><?=$check_student['phone']?></p></td>
+        <td>
+          <p class="text-sm"><?=$check_student['batch']?></p>  
+        </td>
+        <td>
+          <p class="text-sm"><?=$discipline_name?></p>
+        </td>
+        <td>
+          <p class="text-sm"><?=$discipline_branch?></p>
+        </td>
+        <td>
+          <p class="text-sm"><?=$discipline_program?></p>
+        </td>
+        <td>
+          <p class="text-sm"><?=$semester?></p>
+        </td>
+        <td>
+          <?php
+          if($check_student['status'] == '1'){
+            ?>
+              <p class="text-white bg-success text-sm px-1 text-center">Active</p>
+            <?php
+          }elseif($check_student['status'] == '2'){
+            ?>
+              <p class="text-white bg-danger text-sm px-1 text-center">InActive</p>
+            <?php
+          }
+        ?>
+        </td>
+      
+          <td>
+            <div class="p-1">
+            <button class="btn btn-sm btn-warning" onclick="see_remaining_fee_details(<?=$student_id?>)" data-bs-toggle="modal" data-bs-target="#submit_fee_modal">Submit Fee</button>
+            </div>
+          
+            <div class="p-1">
+              <a class="btn btn-primary btn-sm" data-bs-target="#student_row<?=$student_id?>" data-bs-toggle="collapse" href="#" onclick="see_details(<?=$student_id?>)"><i class="bi bi-clipboard-check"></i> Details</a>
+            </div>
+          </td>
+         
+        
+      </tr>
+  
+        <tr>
+        <td colspan="13">
+          <div class="collapse" id="student_row<?=$student_id?>">
+          </div>
+        </td>
+      </tr>
+       
+      
+      <?php
+      $count++;
+    }
+    
+    ?>
+    
+    
+  </tbody>
+  </table>
+  </div>
+    <?php
+
+
+}
