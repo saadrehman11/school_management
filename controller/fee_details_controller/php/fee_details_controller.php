@@ -130,7 +130,7 @@ if($type=="101"){
             <?php
           }elseif($row['status'] == '2'){
             ?>
-              <p class="text-white bg-danger text-sm p-1 text-center">InActive</p>
+              <p class="text-white bg-danger text-sm px-1 text-center">InActive</p>
             <?php
           }
         ?>
@@ -414,3 +414,10 @@ if($type=="104"){
     echo json_encode(['status_Code'=>301,'msg'=>"Entered Amount cannot be empty"]);
   }
 }
+
+// load outstanding fee
+if($type=="105"){}
+
+
+// load paid fee
+if($type=="106"){}

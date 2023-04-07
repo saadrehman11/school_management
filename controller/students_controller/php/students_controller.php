@@ -237,8 +237,8 @@ if($type == "102"){
         </td>
         <td>
           <div>
-            <button class="btn btn-sm btn-warning" onclick="edit_student_detail(<?=$student_id?>)" data-bs-toggle="modal" data-bs-target="#edit_student_modal"><i class="bi bi-pencil-square"></i></button>
-            <button class="btn btn-sm btn-danger" onclick="delete_student(<?=$student_id?>)"><i class="bi bi-person-x-fill"></i></button>
+            <button class="btn btn-sm btn-warning" onclick="edit_student_detail(<?=$student_id?>)" data-bs-toggle="modal" data-bs-target="#edit_student_modal">Edit</button>
+            <button class="btn btn-sm btn-danger" onclick="delete_student(<?=$student_id?>)">Delete</button>
           </div>
         </td>
         
