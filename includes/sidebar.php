@@ -67,6 +67,12 @@
     </ul>
     
   </li>
+  <li class="nav-item">
+    <a class="nav-link " href="../statistics/statistics.php">
+      <i class="bi bi-grid"></i>
+      <span>Statistics</span>
+    </a>
+  </li>
  
 
 
