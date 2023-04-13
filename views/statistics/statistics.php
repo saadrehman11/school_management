@@ -3,53 +3,33 @@ include '../../includes/header.php';
 include '../../includes/sidebar.php';
 ?>  
 <main id="main" class="main">
-<div class="container-fluid">
+  <div class="container-fluid">
 
-<div class="table-responsive">
-  <table class="table table-striped datatable " id="hoa_stats_table">
-  <thead class="bg-dark text-white">
-    <tr>
-      <th scope="col">#</th>
-      <th scope="col">Name</th>
-      <th scope="col">Total Amount</th>
-      <th scope="col">Current Date</th>
-      <th scope="col">Amount Collected Today</th>
-    </tr>
-  </thead>
-  <tbody>
-    <?php
-    $ret=mysqli_query($con,"SELECT * FROM `head_of_accounts` where status = '1' ORDER BY id ASC "); 
-    $count = 1;
-    while ($row=mysqli_fetch_array($ret)) 
-    {
-      $hoa_id = $row['id'];
-      ?>
-      <tr>
-        <td><?=$count?></td>
-        <td>
-          <p class="text-sm mb-0"><?=$row['account_name']?></p>
-        </td>
-        <td>
-          <p class="text-sm mb-0"><?=$row['category']?></p>  
-        </td>
-        <td>
-          <p class="text-sm"><?=$row['amount']?></p></td>
-        <td>
-          
-        </td>
-      
-      </tr>
-      <?php
-      $count++;
-    }
-    ?>
-  </tbody>
-</table>
-</div>
-</div>
+    <div class="d-flex justify-content-end pb-4">
+      <div class="row ">
+        <label for="inputDate" class="col-sm-2 col-form-label">Date:</label>
+        <div class="col-sm-10">
+          <input type="date" id="myDateInput" class="form-control" onchange="load_statistics()">
+        </div>
+      </div>
+    </div>
+    <div class="row table-responsive" id="main_stats_table">
+    
+    </div>
+  </div>
 </main>
 
 <?php
 include '../../includes/footer.php';
 ?>  
-<script src="../../controller/head_of_accounts_controller/js/hoa_controller.js"></script>
+<script src="../../controller/statistics_controller/js/statistics_controller.js"></script>
+
+<script>
+  window.addEventListener("load", (event) => {
+    var today = new Date().toISOString().substr(0, 10);
+    document.getElementById("myDateInput").value = today;
+    load_statistics()
+    console.log("page is fully loaded");
+  });
+</script>
+
