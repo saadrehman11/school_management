@@ -73,6 +73,12 @@
       <span>Statistics</span>
     </a>
   </li>
+  <li class="nav-item">
+    <a class="nav-link " href="../import_data/import_data.php">
+      <i class="bi bi-grid"></i>
+      <span>Import Data</span>
+    </a>
+  </li>
  
 
 

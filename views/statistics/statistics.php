@@ -29,7 +29,6 @@ include '../../includes/footer.php';
     var today = new Date().toISOString().substr(0, 10);
     document.getElementById("myDateInput").value = today;
     load_statistics()
-    console.log("page is fully loaded");
   });
 </script>
 
