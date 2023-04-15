@@ -235,19 +235,31 @@ if($type == "102"){
           <?php
           if($row['status'] == '1'){
             ?>
-              <p class="mb-0 text-white bg-success text-sm p-2 text-center">Active</p>
+              <p class="mb-0 text-white bg-success text-sm px-2 text-center">Active</p>
             <?php
           }elseif($row['status'] == '2'){
             ?>
-              <p class="mb-0 text-white bg-danger text-sm p-2 text-center">InActive</p>
+              <p class="mb-0 text-white bg-danger text-sm px-2 text-center">InActive</p>
             <?php
           }
         ?>
         </td>
         <td>
           <div>
-            <button class="btn btn-sm btn-warning" onclick="edit_student_detail(<?=$student_id?>)" data-bs-toggle="modal" data-bs-target="#edit_student_modal">Edit</button>
-            <button class="btn btn-sm btn-danger" onclick="delete_student(<?=$student_id?>)">Delete</button>
+            <button class="btn btn-sm btn-warning" onclick="load_student_detail(<?=$student_id?>)" data-bs-toggle="modal" data-bs-target="#edit_student_modal">Edit</button>
+            <?php 
+            if($row['status'] == '1'){
+              ?>
+              <button class="btn btn-sm btn-danger" onclick="change_student_status(<?=$student_id?>,2)">Delete</button>
+              <?php
+            }
+            else{
+              ?>
+              <button class="btn btn-sm btn-primary" onclick="change_student_status(<?=$student_id?>,1)">Undo Delete</button>
+              <?php
+            }
+            ?>
+            
           </div>
         </td>
         
@@ -334,6 +346,91 @@ if($type == "104"){
     echo json_encode(['Status_Code'=>300,'msg'=>'No students selected']);
   }
 
+}
+
+
+// load student details for edit
+if($type == "105"){
+
+  $student_id = $_POST['student_id'];
+  $check_student = mysqli_fetch_array(mysqli_query($con,"SELECT * FROM `student` WHERE `id` = '$student_id'"));
+
+
+?>
+     <form id="edit_student_form"  method="post" action="#" onsubmit="edit_student_detail();return false">
+        <div class="row mt-3">
+          <div class="col-12">
+            <div class="card card-primary">
+              <div class="card-header py-0">
+                <h3 class="card-title text-center">General</h3>
+                <input type="hidden" id="student_id" name="student_id" value="<?=$student_id?>">
+              </div>
+              <div class="card-body">
+                <div class="form-group py-2">
+                  <label for="student_name">Student Name</label>
+                  <input type="text" id="student_name"  name="student_name" class="form-control" value="<?=$check_student['student_name']?>" required>
+                </div>
+                <div class="form-group py-2">
+                  <label for="father_name">Father's Name</label>
+                  <input type="text" id="father_name" name="father_name" class="form-control" value="<?=$check_student['father_name']?>" required>
+                </div>
+                <div class="form-group py-2">
+                  <label for="phone">Phone #</label>
+                  <input type="text" id="phone" name="phone" class="form-control" value="<?=$check_student['phone']?>">
+                </div>
+                <div class="form-group py-2">
+                  <label for="batch">Batch</label>
+                  <input type="text" id="batch" name="batch" class="form-control" value="<?=$check_student['batch']?>" required>
+                </div>
+              </div>
+              <!-- /.card-body -->
+            </div>
+            <!-- /.card -->
+          </div>
+        </div>
+        <div class="row">
+          <div class="d-flex justify-content-center">
+            <input type="submit" class="btn btn-success float-right">
+          </div>
+        </div>
+      </form>
+<?php
+}
+
+// edit student details
+if($type == "106"){
+
+  // print_r($_POST);
+  $student_id = $_POST['student_id'];
+  $student_name = $_POST['student_name'];
+  $father_name = $_POST['father_name'];
+  $phone = $_POST['phone'];
+  $batch = $_POST['batch'];
+  $Up_query=mysqli_query($con, "UPDATE `student` SET `student_name`='$student_name',`father_name`='$father_name',`phone`='$phone',`batch`='$batch' WHERE `id` = '$student_id'");
+
+  if($Up_query){
+    echo json_encode(['Status_Code'=>100]);
+  }
+  else{
+    echo json_encode(['Status_Code'=>200]);
+  }
+
+
+}
+
+
+// deleting student
+if($type=="107"){
+  $student_id = $_POST['student_id'];
+  $status = $_POST['status'];
+  $updatequery=mysqli_query($con, "UPDATE `student` SET `status`='$status' WHERE `id` = '$student_id'");
+
+  if($updatequery){
+      echo json_encode(['status_Code'=>100]);
+  }
+  else{
+      echo json_encode(['status_Code'=>200]);
+  }
 }
 
 

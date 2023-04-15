@@ -119,8 +119,69 @@ function promote_students(){
 
 }
 
+function load_student_detail(student_id){
+    $.ajax({    
+        type: "POST",
+        url: "../../controller/students_controller/php/students_controller.php",   
+        data:{ 
+            student_id:student_id,
+            type:105,
+        },               
+        success: function(data){ 
+            // console.log(data)
+            $("#edit_student_div").html(data);
 
-function edit_student_detail(student_id){
+        }
+    });
+}
 
+function edit_student_detail(){
+    var formData2 = new FormData(document.getElementById("edit_student_form"));
+    $.ajax({
+        url: "../../controller/students_controller/php/students_controller.php?type=106",
+        type: "POST",
+        data: formData2,
+        contentType: false,
+        processData:false,
+        cache: false,
+        success: function(dataResult){
+            console.log(dataResult);
+            var resp = JSON.parse(dataResult);
+            if(resp.Status_Code == 100){
+                alert("Record Updated Successfully")
+                location.reload();
+            }
+            else if(resp.Status_Code == 200){
+                alert("Error Updating Record")
+            }
+        }
+    });
     
+}
+
+
+function change_student_status(student_id,status) {
+    $.ajax({    
+        type: "POST",
+        url: "../../controller/students_controller/php/students_controller.php",   
+        data:{ 
+            student_id:student_id,
+            status:status,
+            type:107,
+        },               
+        success: function(data){ 
+            console.log(data)
+            var resp = JSON.parse(data);
+            if(resp.status_Code == 100){
+                alert("Status changed Successfully");
+                location.reload();
+            }
+            else if(resp.status_Code == 200){
+                alert("Error changing status");
+            }
+            
+            
+
+        }
+    });
 }
