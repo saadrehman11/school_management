@@ -41,7 +41,7 @@ include '../../includes/sidebar.php';
       </div>
       <div>
         <div class="d-flex justify-content-evenly">
-          <a href="#" class="btn btn-secondary">Cancel</a>
+         
           <input type="submit" class="btn btn-success float-right">
         </div>
       </div>
