@@ -104,3 +104,26 @@ function load_paid_fee() {
         }
     });
 }
+
+function submit_semester_amount(semester,row_id,student_id){
+    var paying_amount_semester = $("#paying_amount_semester"+row_id).val();
+    $.ajax({    
+        type: "POST",
+        url: "../../controller/fee_details_controller/php/fee_details_controller.php",   
+        data: {
+            type:107,
+            semester:semester,
+            student_id:student_id,
+            paying_amount_semester:paying_amount_semester,
+        },             
+        success: function(data){ 
+            // console.log(data)
+            var res = JSON.parse(data)
+            alert(res.msg);
+            if(res.status_Code == 100){
+                see_remaining_fee_details(student_id)
+            }
+        }
+    });
+}
+

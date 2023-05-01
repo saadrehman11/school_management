@@ -98,7 +98,13 @@ if($type=="101"){
         <td><?=$count?></td>
         <td><?=$student_id?></td>
         <td>
-          <img src="../../<?=$row['picture_path']?>" height="45" width="45">
+          <?php
+          if(!empty($check_student['picture_path'])){
+            echo '<img src="../../'.$row['picture_path'].'" height="45" width="45">';
+          }
+          else{
+            echo '<img src="../../assets/images/profile_photo/user-icon.webp" height="45" width="45">';
+          }?>
         </td>
         <td>
           <p class="text-sm"><?=$row['student_name']?></p></td>
@@ -267,7 +273,7 @@ if($type=="103"){
       <button class="nav-link w-100 active" id="home-tab" data-bs-toggle="tab" data-bs-target="#home-justified" type="button" role="tab" aria-controls="home" aria-selected="true">Fee with Head of Accounts</button>
     </li>
     <li class="nav-item flex-fill" role="presentation">
-      <button class="nav-link w-100" id="total-tab" data-bs-toggle="tab" data-bs-target="#total-justified" type="button" role="tab" aria-controls="profile" aria-selected="false">Total Fee</button>
+      <button class="nav-link w-100" id="total-tab" data-bs-toggle="tab" data-bs-target="#total-justified" type="button" role="tab" aria-controls="profile" aria-selected="false">Semester wise Fee</button>
     </li>
   </ul>
 
@@ -434,12 +440,12 @@ if($type=="103"){
         </td>
         <td style="width:10vw">
           <div >
-            <input class="form-control py-0" type="number" name="paying_amount_input<?=$id?>" id="paying_amount_input<?=$id?>" <?php if(intval($row2['total_paid_semester']) >= intval($row2['total_amount_semester']) ){echo 'disabled';}?>>
+            <input class="form-control py-0" type="number" name="paying_amount_semester<?=$id?>" id="paying_amount_semester<?=$id?>" <?php if(intval($row2['total_paid_semester']) >= intval($row2['total_amount_semester']) ){echo 'disabled';}?>>
           </div>
         </td>
         <td>
           <div>
-            <button type="button" class="btn btn-sm btn-primary" onclick="submit_paying_amount(<?=$id?>)" <?php if(intval($row2['total_paid_semester']) >= intval($row2['total_amount_semester']) ){echo 'disabled';}?>>Submit</button>
+            <button type="button" class="btn btn-sm btn-primary" onclick="submit_semester_amount('<?=$row2['semester']?>','<?=$id?>','<?=$student_id?>')" <?php if(intval($row2['total_paid_semester']) >= intval($row2['total_amount_semester']) ){echo 'disabled';}?>>Submit</button>
           </div>
         </td>
         
@@ -768,6 +774,49 @@ if($type=="106"){
   </table>
   </div>
     <?php
+
+
+}
+
+
+if($type=="107"){
+  // print_r($_POST);
+  $student_id = $_POST['student_id'];
+  $semester = $_POST['semester'];
+  $paying_amount_semester = $_POST['paying_amount_semester'];
+
+  if(!empty($paying_amount_semester)){
+    $amount_semester = mysqli_fetch_array(mysqli_query($con,"SELECT *,sum(`total_amount`) as total_amount_semester,sum(`amount_paid`) as total_paid_semester FROM `fee_record` WHERE `student_id` = '$student_id' AND semester ='$semester'"));
+
+    $total_amount_semester = intval($amount_semester['total_amount_semester']);
+    $total_paid_semester = intval($amount_semester['total_paid_semester']);
+  
+    $t_amount = intval($paying_amount_semester) + ($total_paid_semester) ;
+  
+    if($t_amount > $total_amount_semester){
+      echo json_encode(['status_Code'=>303,'msg'=>"Entered Amount cannot be greater than total paid amount"]);
+    }
+    elseif($t_amount < $total_amount_semester){
+      echo json_encode(['status_Code'=>302,'msg'=>"Entered Amount cannot be less than total paid amount"]);
+    }
+    elseif(intval($t_amount) == $total_amount_semester){
+      $ret=mysqli_query($con,"SELECT * FROM `fee_record` WHERE `student_id` = '$student_id' AND `semester` = '$semester'"); 
+      while ($row=mysqli_fetch_array($ret)) 
+      {
+        $id = $row['id'];
+        $student_id = $row['student_id'];
+        $total_amount = $row['total_amount'];
+        $amount_paid = $row['amount_paid'];
+
+        $updtquery=mysqli_query($con, "update fee_record set amount_paid='$total_amount' where id='$id'");
+      }
+      echo json_encode(['status_Code'=>100,'msg'=>"Entered Amount is paid"]);
+    }
+  }
+  else{
+    echo json_encode(['status_Code'=>301,'msg'=>"Entered Amount cannot be empty"]);
+  }
+  
 
 
 }

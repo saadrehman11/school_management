@@ -81,41 +81,83 @@ ini_set('display_errors', true);
 include '../../../assets/PHPExcel-1.8/SimpleXLSX.php';
 
     $count=0;
+    $flag = 0;
      if ($xlsx = SimpleXLSX::parse($file_tmp)) {
         foreach ($xlsx->readRows() as $k => $r) {
             $count++;
-            if ($k <= 16 || empty(array_filter($r))) continue; // skip first row
-            // print_r($r);
-            $label_task_number=mysqli_real_escape_string($con,$r[0]);
-            $quality_inspection_task=mysqli_real_escape_string($con,$r[1]);
-            $id_of_the_task=mysqli_real_escape_string($con,$r[2]);
-            $task_belongs=mysqli_real_escape_string($con,$r[3]);
-            $task_type=mysqli_real_escape_string($con,$r[4]);
+            if ($k <= 173 || empty(array_filter($r))) continue; // skip first row
+            $sr=mysqli_real_escape_string($con,$r[0]);
+            $name=mysqli_real_escape_string($con,$r[1]);
+            $father_name=mysqli_real_escape_string($con,$r[2]);
+            $discipline=mysqli_real_escape_string($con,$r[3]);
+            $hoa=mysqli_real_escape_string($con,$r[4]);
+            $amount=$r[5];
             
-            $effective_number_or_total=$r[5];
-            
-            $all_duration=$r[6];
+            $date1=$r[6];
+            $date2=$r[7];
+            $date3=$r[8];
+            $date4=$r[9];
+            $date5=$r[10];
+            $date6=$r[11];
+            $date7=$r[12];
+            $date8=$r[13];
+            $date9=$r[14];
+            $date10=$r[15];
+            $date11=$r[16];
+            $date12=$r[17];
+            $date13=$r[18];
 
-            
-            $state=$r[7];
-            $audio_name=$r[8];
-            $number_of_reworks=$r[9];
-            
-            $checked_modified_items=$r[10];
+            $total_paid=$r[19];
+            $outstanding=$r[20];
+            $prev_outstanding=$r[21];
+            $net_outstanding=$r[22];
+            $total_outstanding=$r[23];
 
+            echo " ".$name;
+            echo " ".$father_name;
+            echo " ".$discipline;
+            echo " ".$hoa;
+            echo " ".$amount;
+            echo " ".$date1;
+            echo " ".$date2;
+            echo " ".$date3;
+            echo " ".$date4;
+            echo " ".$date5;
+            echo " ".$date6;
+            echo " ".$date7;
+            echo " ".$date8;
+            echo " ".$date9;
+            echo " ".$date10;
+            echo " ".$date11;
+            echo " ".$date12;
+            echo " ".$date13;
+            echo " ".$total_paid;
             
-            $application_time=$r[11];
-           
-            $submission_time=$r[12];
-           
-            $working_time=$r[13];
-            $operating_options=$r[14];
+            die();
+            if($flag == 0){
+                $addstudent=mysqli_query($con, "INSERT INTO `student`( `student_name`, `father_name`, `batch`, `discipline`, `status`, `created_on`) 
+                VALUES ($name','$father_name','8','4','1','$date_time')");
+                $lastId=$con->insert_id;
+
+                $addsemester=mysqli_query($con, "INSERT INTO `student_semester`(`semester_number`, `student_id`, `status`, `created_on`) VALUES ('1','$lastId','1','$date_time')");
+
+                //remove die and this part needs to be completed
+            }
             
-            
+            if($hoa == 'Others'){
+                $flag = 0;
+            }else{
+                $flag = 1;
+            }
+
             // $rows = $xlsx->rows();
             // echo $row_count = count($rows);
-            echo "<pre>";
-            print_r($r);
+
+            echo " k is ".$k;
+            
+            // echo "<pre>";
+            // print_r($r);
+      
         }
       
      }

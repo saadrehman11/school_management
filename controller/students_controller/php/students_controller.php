@@ -95,6 +95,16 @@ if($type=="101"){
                     $add_fee_record=mysqli_query($con, "INSERT INTO `fee_record`(`student_id`, `hoa_id`, `semester`, `total_amount`, `created_on`) VALUES ('$id','$hoa_id','$semester','$amount','$date_and_time')");
                 }
             }
+            $transport = $_POST['transport'];
+            if($transport == '1'){
+                $ret3=mysqli_query($con,"SELECT * FROM `head_of_accounts` WHERE `category` = 'General_transport' AND `status` = '1'"); 
+                while ($row3=mysqli_fetch_array($ret3)) 
+                {   
+                    $hoa_id2 = $row3['id'];
+                    $amount2 = $row3['amount'];
+                    $add_fee_record2=mysqli_query($con, "INSERT INTO `fee_record`(`student_id`, `hoa_id`, `semester`, `total_amount`, `created_on`) VALUES ('$id','$hoa_id2','$semester','$amount2','$date_and_time')");
+                }
+            }
             echo json_encode(['status_Code'=>100,'msg'=>'Success','file_Status_Code'=>$file_Status_Code,'file_msg'=>$msg]);
         }
     }

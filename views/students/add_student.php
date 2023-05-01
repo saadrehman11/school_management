@@ -61,6 +61,19 @@ include '../../includes/sidebar.php';
                   </div>
                 </div>
               </div>
+              <div class="form-group py-2">
+                <label for="picture">Need Transport:</label>
+                <div class="row">
+                  <div class="col-12 col-md-6">
+                    <input type="radio" id="transport_yes" name="transport" class="custom-control-input" value="1">
+                    <label for="transport_yes" class="custom-control-label">Yes</label>
+                  </div>
+                  <div class="col-12 col-md-6">
+                    <input type="radio" id="transport_no" name="transport" class="custom-control-input" value="2" checked>
+                    <label for="transport_no" class="custom-control-label">No</label>
+                  </div>
+                </div>
+              </div>
             </div>
             <!-- /.card-body -->
           </div>
@@ -83,7 +96,7 @@ include '../../includes/sidebar.php';
                         <div class="col-12 col-md-6 form-group py-2">
                             <div class="custom-control custom-radio">
                                 <input class="custom-control-input" type="radio" id="discipline<?=$row['id']?>" name="discipline" value="<?=$row['id']?>" required>
-                                <label for="discipline<?=$row['id']?>" class="custom-control-label"><?=$row['discipline_name']?> (<?=$row['program']?>)</label>
+                                <label for="discipline<?=$row['id']?>" class="custom-control-label"><?=$row['discipline_name']?> <b>(<?=$row['program']?>)</b> </label>
                             </div>
                         </div>
                         <?php
@@ -101,7 +114,7 @@ include '../../includes/sidebar.php';
                         <div class="col-12 col-md-6 form-group py-2">
                             <div class="custom-control custom-radio">
                                 <input class="custom-control-input" type="radio" id="discipline<?=$row['id']?>" name="discipline" value="<?=$row['id']?>" required>
-                                <label for="discipline<?=$row['id']?>" class="custom-control-label"><?=$row['discipline_name']?> (<?=$row['program']?>)</label>
+                                <label for="discipline<?=$row['id']?>" class="custom-control-label"><?=$row['discipline_name']?><b>(<?=$row['program']?>)</b> </label>
                             </div>
                         </div>
                         <?php
