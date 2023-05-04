@@ -82,16 +82,30 @@ include '../../../assets/PHPExcel-1.8/SimpleXLSX.php';
 
     $count=0;
     $flag = 0;
+    $student_count = 0;
+    $student_id = 0;
+    $abc = 0;
      if ($xlsx = SimpleXLSX::parse($file_tmp)) {
         foreach ($xlsx->readRows() as $k => $r) {
+            $hoa_id ="0";
             $count++;
-            if ($k <= 173 || empty(array_filter($r))) continue; // skip first row
-            $sr=mysqli_real_escape_string($con,$r[0]);
-            $name=mysqli_real_escape_string($con,$r[1]);
-            $father_name=mysqli_real_escape_string($con,$r[2]);
-            $discipline=mysqli_real_escape_string($con,$r[3]);
-            $hoa=mysqli_real_escape_string($con,$r[4]);
-            $amount=$r[5];
+            if ($k <= 1 ) continue; // skip first row
+            if(empty(array_filter($r))){
+                echo "student_count ".$student_count;
+                // echo "breaking k is ".$k;
+                break;
+            }
+            // echo "<pre>";
+            // print_r($r);
+            // die(); 
+            $sr=trim($r[0]);
+            $n = $r[1];
+            $name=trim(preg_replace('/[^a-zA-Z]+$/', '', $n));
+            $father_name=trim($r[2]);
+            $discipline=trim($r[3]);
+            $hoa=trim($r[4]);
+            $amount=trim($r[5]);
+            
             
             $date1=$r[6];
             $date2=$r[7];
@@ -106,6 +120,7 @@ include '../../../assets/PHPExcel-1.8/SimpleXLSX.php';
             $date11=$r[16];
             $date12=$r[17];
             $date13=$r[18];
+            // $date14=$r[19];
 
             $total_paid=$r[19];
             $outstanding=$r[20];
@@ -113,50 +128,129 @@ include '../../../assets/PHPExcel-1.8/SimpleXLSX.php';
             $net_outstanding=$r[22];
             $total_outstanding=$r[23];
 
-            echo " ".$name;
-            echo " ".$father_name;
-            echo " ".$discipline;
-            echo " ".$hoa;
-            echo " ".$amount;
-            echo " ".$date1;
-            echo " ".$date2;
-            echo " ".$date3;
-            echo " ".$date4;
-            echo " ".$date5;
-            echo " ".$date6;
-            echo " ".$date7;
-            echo " ".$date8;
-            echo " ".$date9;
-            echo " ".$date10;
-            echo " ".$date11;
-            echo " ".$date12;
-            echo " ".$date13;
-            echo " ".$total_paid;
+            // echo " ".$name;
+            // echo " ".$father_name;
+            // echo " ".$discipline;
+            // echo " ".$hoa;
+            // echo " ".$amount;
+            // echo " ".$date1;
+            // echo " ".$date2;
+            // echo " ".$date3;
+            // echo " ".$date4;
+            // echo " ".$date5;
+            // echo " ".$date6;
+            // echo " ".$date7;
+            // echo " ".$date8;
+            // echo " ".$date9;
+            // echo " ".$date10;
+            // echo " ".$date11;
+            // echo " ".$date12;
+            // echo " ".$date13;   4th backup is bs completed except 7 8
+            // echo " ".$date14;    5th backup is bs completed except 7
+            // echo " ".$total_paid;
             
-            die();
+            // die();
+            
+            $batch = 7;
+            if($discipline =="MLT"){
+                $discipline = '5';
+            }
+            elseif($discipline =="DEN"){
+                $discipline = '4';
+            }
+            elseif($discipline =="HT"){
+                $discipline = '6';
+            }
+            elseif($discipline =="ANT"){
+                $discipline = '2';
+            }
+            elseif($discipline =="SUR"){
+                $discipline = '3';
+            }
+            elseif($discipline =="RAD"){
+                $discipline = '1';
+            }
+            $semester = '6';
             if($flag == 0){
-                $addstudent=mysqli_query($con, "INSERT INTO `student`( `student_name`, `father_name`, `batch`, `discipline`, `status`, `created_on`) 
-                VALUES ($name','$father_name','8','4','1','$date_time')");
-                $lastId=$con->insert_id;
 
-                $addsemester=mysqli_query($con, "INSERT INTO `student_semester`(`semester_number`, `student_id`, `status`, `created_on`) VALUES ('1','$lastId','1','$date_time')");
-
-                //remove die and this part needs to be completed
+                if($semester == '1'){
+                    $addstudent=mysqli_query($con, "INSERT INTO `student`( `student_name`, `father_name`, `batch`, `discipline`, `status`, `created_on`) VALUES ('$name','$father_name','$batch','$discipline','1','$date_time')");
+                    $lastId=$con->insert_id;
+                    $student_id = $lastId;
+                }
+                else{
+                    $student_id = NULL;
+                    // $abc++;
+                    // echo $abc."\n";
+                    $q = "SELECT * FROM `student` WHERE `student_name` = '$name' AND father_name= '$father_name'";
+                    // echo $q." ";
+                    $check_dublicate = mysqli_fetch_array(mysqli_query($con,$q));
+                    if(!empty($check_dublicate['id'])){ 
+                         
+                        $student_count++;
+                        // echo $student_count ."\n";
+                        $student_id = $check_dublicate['id'];
+                        // echo " ".$student_id . " " .$name. " \n";
+                    }
+                    echo $student_count. " ". $student_id ."\n";
+                }
+                
+                if(!empty($student_id)){
+                    $addsemester=mysqli_query($con, "INSERT INTO `student_semester`(`semester_number`, `student_id`, `status`, `created_on`) VALUES ('$semester','$student_id','1','$date_time')");
+                }
+                
+                
             }
             
-            if($hoa == 'Others'){
+            if($hoa == "Others"){
                 $flag = 0;
-            }else{
+                $hoa_id = "32";
+            }elseif($hoa == "Admission"){
                 $flag = 1;
+                $hoa_id = "1";
+            }elseif($hoa == "Tuition"){
+                $flag = 1;
+                $hoa_id = "6";
+            }elseif($hoa == "Security"){
+                $flag = 1;
+                $hoa_id = "31";
+            }elseif($hoa == "ID+Overall"){
+                $flag = 1;
+                $hoa_id = "30";
+            }elseif($hoa == "Hostel"){
+                $flag = 1;
+                $hoa_id = "2";
+            }elseif($hoa == "Degree Fee"){
+                $flag = 1;
+                $hoa_id = "9";
+            }elseif($hoa == "Exam Fee"){
+                $flag = 1;
+                $hoa_id = "10";
+            }elseif($hoa == "Registration"){
+                $flag = 1;
+                $hoa_id = "11";
+            }elseif($hoa == "Retention"){
+                $flag = 1;
+                $hoa_id = "12";
+            }elseif($hoa == "Clinical Charges"){
+                $flag = 1;
+                $hoa_id = "8";
             }
+
+            if(!empty($amount)){
+                if(!empty($student_id)){
+                    $addfee_detail=mysqli_query($con, "INSERT INTO `fee_record`(`student_id`, `hoa_id`, `semester`, `total_amount`, `amount_paid`, `created_on`) VALUES ('$student_id','$hoa_id','$semester','$amount','$total_paid','$date_time')");
+                }
+                
+            }
+            
 
             // $rows = $xlsx->rows();
             // echo $row_count = count($rows);
 
-            echo " k is ".$k;
+            // echo " k is ".$k;
             
-            // echo "<pre>";
-            // print_r($r);
+            
       
         }
       
