@@ -62,7 +62,7 @@ include '../../includes/sidebar.php';
                   </div>
                 </div>
               </div>
-              <div class="form-group py-2 col-12 col-md-6">
+              <div class="form-group py-2">
                 <label for="picture">Need Transport:</label>
                 <div class="row">
                   <div class="col-12 col-md-6">

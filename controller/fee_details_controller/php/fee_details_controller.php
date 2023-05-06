@@ -90,9 +90,12 @@ if($type=="101"){
         $semester = NULL;
       }
       $check_discipline = mysqli_fetch_array(mysqli_query($con,"SELECT * FROM `discipline` WHERE `id` = '$discipline'"));
-      $discipline_name = $check_discipline['discipline_name'];
-      $discipline_branch= $check_discipline['branch'];
-      $discipline_program = $check_discipline['program'];
+      if(!empty($check_discipline)){
+        $discipline_name = $check_discipline['discipline_name'];
+        $discipline_branch= $check_discipline['branch'];
+        $discipline_program = $check_discipline['program'];
+      }
+      
       ?>
       <tr>
         <td><?=$count?></td>
@@ -554,9 +557,13 @@ if($type=="105"){
     
 
     $check_discipline = mysqli_fetch_array(mysqli_query($con,"SELECT * FROM `discipline` WHERE `id` = '$discipline'"));
-    $discipline_name = $check_discipline['discipline_name'];
-    $discipline_branch= $check_discipline['branch'];
-    $discipline_program = $check_discipline['program'];
+    
+    if(!empty($check_discipline)){
+      $discipline_name = $check_discipline['discipline_name'];
+      $discipline_branch= $check_discipline['branch'];
+      $discipline_program = $check_discipline['program'];
+    }
+    
     ?>
     <tr>
       <td><?=$count?></td>
@@ -690,9 +697,13 @@ if($type=="106"){
       
   
       $check_discipline = mysqli_fetch_array(mysqli_query($con,"SELECT * FROM `discipline` WHERE `id` = '$discipline'"));
-      $discipline_name = $check_discipline['discipline_name'];
-      $discipline_branch= $check_discipline['branch'];
-      $discipline_program = $check_discipline['program'];
+      
+      if(!empty($check_discipline)){
+        $discipline_name = $check_discipline['discipline_name'];
+        $discipline_branch= $check_discipline['branch'];
+        $discipline_program = $check_discipline['program'];
+      }
+      
       ?>
       <tr>
         <td><?=$count?></td>
