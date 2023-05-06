@@ -1,3 +1,4 @@
+
 function load_students_data() {
     document.getElementById("search_submit_btn").innerHTML='<i class="bi bi-arrow-repeat"></i>';
     var st_name = $("#student_name").val();
@@ -35,7 +36,7 @@ function add_student_db() {
         processData:false,
         cache: false,
         success: function(dataResult){
-            // console.log(dataResult);
+            console.log(dataResult);
             var resp = JSON.parse(dataResult);
             if(resp.status_Code == 100){
                 alert("Student Added Successfully")
@@ -184,4 +185,32 @@ function change_student_status(student_id,status) {
 
         }
     });
+}
+
+function populate_hoa_div(discipline_id){
+    console.log("discipline_id ",discipline_id)
+    $.ajax({    
+        type: "POST",
+        url: "../../controller/students_controller/php/students_controller.php",   
+        data:{ 
+            discipline_id:discipline_id,
+            type:108,
+        },               
+        success: function(data){ 
+            // console.log(data)
+            $("#hoa_div").html(data);
+        }
+    });
+}
+
+function change_status_hoa(hoa_id) {
+    // console.log("hoa_id ",hoa_id)
+    var hoa_checkbox = document.getElementById('hoa_checkbox'+hoa_id);  
+    // console.log(hoa_checkbox)
+    if (hoa_checkbox.checked == true){  
+        document.getElementById("hoa_input"+hoa_id).disabled = false;
+    }
+    else if(hoa_checkbox.checked == false){
+        document.getElementById("hoa_input"+hoa_id).disabled = true;
+    }
 }

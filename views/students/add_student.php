@@ -4,7 +4,7 @@ include '../../includes/sidebar.php';
 ?>  
 
 <main id="main" class="main">
-<div class="container py-2">
+<div class="container pt-0 pb-2">
 
     <form id="new_student_form"  method="post" action="#" onsubmit="add_student_db();return false">
       <div class="row mt-3">
@@ -14,6 +14,7 @@ include '../../includes/sidebar.php';
               <h3 class="card-title text-center py-0">General</h3>
             </div>
             <div class="card-body">
+              <div class="row">
               <div class="form-group py-2">
                 <label for="student_name">Student Name</label>
                 <input type="text" id="student_name"  name="student_name" class="form-control" required>
@@ -22,15 +23,15 @@ include '../../includes/sidebar.php';
                 <label for="father_name">Father's Name</label>
                 <input type="text" id="father_name" name="father_name" class="form-control" required>
               </div>
-              <div class="form-group py-2">
+              <div class="form-group py-2 col-12 col-md-6">
                 <label for="phone">Phone #</label>
                 <input type="text" id="phone" name="phone" class="form-control">
               </div>
-              <div class="form-group py-2">
+              <div class="form-group py-2 col-12 col-md-6">
                 <label for="batch">Batch</label>
                 <input type="text" id="batch" name="batch" class="form-control" required>
               </div>
-              <div class="form-group py-2">
+              <div class="form-group py-2 col-12 col-md-6">
                 <label for="semester">Semester</label>
                 <select id="semester" name="semester" class="form-control custom-select" >
                   <option selected disabled>Select Semester</option>
@@ -48,7 +49,7 @@ include '../../includes/sidebar.php';
                 <label for="picture">Picture</label>
                 <input type="file" id="picture" name="picture" class="form-control">
               </div>
-              <div class="form-group py-2">
+              <div class="form-group py-2 ">
                 <label for="picture">Need Hostel:</label>
                 <div class="row">
                   <div class="col-12 col-md-6">
@@ -61,7 +62,7 @@ include '../../includes/sidebar.php';
                   </div>
                 </div>
               </div>
-              <div class="form-group py-2">
+              <div class="form-group py-2 col-12 col-md-6">
                 <label for="picture">Need Transport:</label>
                 <div class="row">
                   <div class="col-12 col-md-6">
@@ -74,6 +75,8 @@ include '../../includes/sidebar.php';
                   </div>
                 </div>
               </div>
+              </div>
+              
             </div>
             <!-- /.card-body -->
           </div>
@@ -95,7 +98,7 @@ include '../../includes/sidebar.php';
                         
                         <div class="col-12 col-md-6 form-group py-2">
                             <div class="custom-control custom-radio">
-                                <input class="custom-control-input" type="radio" id="discipline<?=$row['id']?>" name="discipline" value="<?=$row['id']?>" required>
+                                <input class="custom-control-input" onchange="populate_hoa_div(this.value)" type="radio" id="discipline<?=$row['id']?>" name="discipline" value="<?=$row['id']?>" required>
                                 <label for="discipline<?=$row['id']?>" class="custom-control-label"><?=$row['discipline_name']?> <b>(<?=$row['program']?>)</b> </label>
                             </div>
                         </div>
@@ -113,7 +116,7 @@ include '../../includes/sidebar.php';
                         ?>
                         <div class="col-12 col-md-6 form-group py-2">
                             <div class="custom-control custom-radio">
-                                <input class="custom-control-input" type="radio" id="discipline<?=$row['id']?>" name="discipline" value="<?=$row['id']?>" required>
+                                <input class="custom-control-input" onchange="populate_hoa_div(this.value)" type="radio" id="discipline<?=$row['id']?>" name="discipline" value="<?=$row['id']?>" required>
                                 <label for="discipline<?=$row['id']?>" class="custom-control-label"><?=$row['discipline_name']?><b>(<?=$row['program']?>)</b> </label>
                             </div>
                         </div>
@@ -128,6 +131,7 @@ include '../../includes/sidebar.php';
           <!-- /.card -->
         </div>
       </div>
+      <div class="row card py-2 col-12" id="hoa_div"></div>
       <div class="row">
         <div class="col-12">
           <input type="submit" class="btn btn-success float-right">

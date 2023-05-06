@@ -84,7 +84,8 @@ include '../../../assets/PHPExcel-1.8/SimpleXLSX.php';
     $flag = 0;
     $student_count = 0;
     $student_id = 0;
-    $abc = 0;
+    
+    $degree = "diploma";
      if ($xlsx = SimpleXLSX::parse($file_tmp)) {
         foreach ($xlsx->readRows() as $k => $r) {
             $hoa_id ="0";
@@ -128,7 +129,7 @@ include '../../../assets/PHPExcel-1.8/SimpleXLSX.php';
             $net_outstanding=$r[22];
             $total_outstanding=$r[23];
 
-            // echo " ".$name;
+            echo $name . "\n";
             // echo " ".$father_name;
             // echo " ".$discipline;
             // echo " ".$hoa;
@@ -151,42 +152,137 @@ include '../../../assets/PHPExcel-1.8/SimpleXLSX.php';
             
             // die();
             
-            $batch = 7;
-            if($discipline =="MLT"){
-                $discipline = '5';
+            $batch = 23;
+            $semester = '1';
+
+            if($degree == "BS"){
+
+                if($discipline =="MLT"){
+                    $discipline = '5';
+                }
+                elseif($discipline =="DEN"){
+                    $discipline = '4';
+                }
+                elseif($discipline =="HT"){
+                    $discipline = '6';
+                }
+                elseif($discipline =="ANT"){
+                    $discipline = '2';
+                }
+                elseif($discipline =="SUR"){
+                    $discipline = '3';
+                }
+                elseif($discipline =="RAD"){
+                    $discipline = '1';
+                }
+                
+                if($flag == 0){
+
+                    if($semester == '1'){
+                        $addstudent=mysqli_query($con, "INSERT INTO `student`( `student_name`, `father_name`, `batch`, `discipline`, `status`, `created_on`) VALUES ('$name','$father_name','$batch','$discipline','1','$date_time')");
+                        $lastId=$con->insert_id;
+                        $student_id = $lastId;
+                    }
+                    else{
+                        $student_id = NULL;
+                        
+                        $q = "SELECT * FROM `student` WHERE `student_name` = '$name' AND father_name= '$father_name'";
+                        // echo $q." ";
+                        $check_dublicate = mysqli_fetch_array(mysqli_query($con,$q));
+                        if(!empty($check_dublicate['id'])){ 
+                            
+                            $student_count++;
+                            // echo $student_count ."\n";
+                            $student_id = $check_dublicate['id'];
+                            // echo " ".$student_id . " " .$name. " \n";
+                        }
+                        echo $student_count. " ". $student_id ."\n";
+                    }
+                    
+                    if(!empty($student_id)){
+                        $addsemester=mysqli_query($con, "INSERT INTO `student_semester`(`semester_number`, `student_id`, `status`, `created_on`) VALUES ('$semester','$student_id','1','$date_time')");
+                    }
+                    
+                    
+                }
+                
+                if($hoa == "Others"){
+                    $flag = 0;
+                    $hoa_id = "32";
+                }elseif($hoa == "Admission"){
+                    $flag = 1;
+                    $hoa_id = "1";
+                }elseif($hoa == "Tuition"){
+                    $flag = 1;
+                    $hoa_id = "6";
+                }elseif($hoa == "Security"){
+                    $flag = 1;
+                    $hoa_id = "31";
+                }elseif($hoa == "ID+Overall"){
+                    $flag = 1;
+                    $hoa_id = "30";
+                }elseif($hoa == "Hostel"){
+                    $flag = 1;
+                    $hoa_id = "2";
+                }elseif($hoa == "Degree Fee"){
+                    $flag = 1;
+                    $hoa_id = "9";
+                }elseif($hoa == "Exam Fee"){
+                    $flag = 1;
+                    $hoa_id = "10";
+                }elseif($hoa == "Registration"){
+                    $flag = 1;
+                    $hoa_id = "11";
+                }elseif($hoa == "Retention"){
+                    $flag = 1;
+                    $hoa_id = "12";
+                }elseif($hoa == "Clinical Charges"){
+                    $flag = 1;
+                    $hoa_id = "8";
+                }
+        }
+        elseif($degree == "diploma"){
+            if($discipline =="DEN"){
+                $discipline = '10';
             }
-            elseif($discipline =="DEN"){
-                $discipline = '4';
+            elseif($discipline =="CAR"){
+                $discipline = '17';
             }
             elseif($discipline =="HT"){
-                $discipline = '6';
+                $discipline = '9';
+            }
+            elseif($discipline =="PT"){
+                $discipline = '11';
             }
             elseif($discipline =="ANT"){
-                $discipline = '2';
-            }
-            elseif($discipline =="SUR"){
-                $discipline = '3';
+                $discipline = '16';
             }
             elseif($discipline =="RAD"){
-                $discipline = '1';
+                $discipline = '12';
             }
-            $semester = '6';
+            elseif($discipline =="SUR"){
+                $discipline = '18';
+            }
+            elseif($discipline =="PHY"){
+                $discipline = '14';
+            }
+            
             if($flag == 0){
 
                 if($semester == '1'){
-                    $addstudent=mysqli_query($con, "INSERT INTO `student`( `student_name`, `father_name`, `batch`, `discipline`, `status`, `created_on`) VALUES ('$name','$father_name','$batch','$discipline','1','$date_time')");
-                    $lastId=$con->insert_id;
-                    $student_id = $lastId;
+                    // $addstudent=mysqli_query($con, "INSERT INTO `student`( `student_name`, `father_name`, `batch`, `discipline`, `status`, `created_on`) VALUES ('$name','$father_name','$batch','$discipline','1','$date_time')");
+                    // $lastId=$con->insert_id;
+                    // $student_id = $lastId;
+                    $student_count++;
                 }
                 else{
                     $student_id = NULL;
-                    // $abc++;
-                    // echo $abc."\n";
+                    
                     $q = "SELECT * FROM `student` WHERE `student_name` = '$name' AND father_name= '$father_name'";
                     // echo $q." ";
                     $check_dublicate = mysqli_fetch_array(mysqli_query($con,$q));
                     if(!empty($check_dublicate['id'])){ 
-                         
+                        
                         $student_count++;
                         // echo $student_count ."\n";
                         $student_id = $check_dublicate['id'];
@@ -196,50 +292,43 @@ include '../../../assets/PHPExcel-1.8/SimpleXLSX.php';
                 }
                 
                 if(!empty($student_id)){
-                    $addsemester=mysqli_query($con, "INSERT INTO `student_semester`(`semester_number`, `student_id`, `status`, `created_on`) VALUES ('$semester','$student_id','1','$date_time')");
+                    // $addsemester=mysqli_query($con, "INSERT INTO `student_semester`(`semester_number`, `student_id`, `status`, `created_on`) VALUES ('$semester','$student_id','1','$date_time')");
                 }
                 
                 
             }
             
-            if($hoa == "Others"){
+            if($hoa == "OTHER"){
                 $flag = 0;
                 $hoa_id = "32";
-            }elseif($hoa == "Admission"){
+            }elseif($hoa == "ADMISSION"){
                 $flag = 1;
                 $hoa_id = "1";
-            }elseif($hoa == "Tuition"){
+            }elseif($hoa == "TUITION"){
                 $flag = 1;
                 $hoa_id = "6";
-            }elseif($hoa == "Security"){
+            }elseif($hoa == "EXAMINATION"){
+                $flag = 1;
+                $hoa_id = "16";
+            }elseif($hoa == "SECURITY"){
                 $flag = 1;
                 $hoa_id = "31";
-            }elseif($hoa == "ID+Overall"){
-                $flag = 1;
-                $hoa_id = "30";
             }elseif($hoa == "Hostel"){
                 $flag = 1;
                 $hoa_id = "2";
-            }elseif($hoa == "Degree Fee"){
+            }elseif($hoa == "Clinical Training"){
                 $flag = 1;
-                $hoa_id = "9";
-            }elseif($hoa == "Exam Fee"){
+                $hoa_id = "14";
+            }elseif($hoa == "REGISTRATION"){
                 $flag = 1;
-                $hoa_id = "10";
-            }elseif($hoa == "Registration"){
-                $flag = 1;
-                $hoa_id = "11";
-            }elseif($hoa == "Retention"){
-                $flag = 1;
-                $hoa_id = "12";
-            }elseif($hoa == "Clinical Charges"){
-                $flag = 1;
-                $hoa_id = "8";
+                $hoa_id = "18";
             }
+        }
+
 
             if(!empty($amount)){
                 if(!empty($student_id)){
-                    $addfee_detail=mysqli_query($con, "INSERT INTO `fee_record`(`student_id`, `hoa_id`, `semester`, `total_amount`, `amount_paid`, `created_on`) VALUES ('$student_id','$hoa_id','$semester','$amount','$total_paid','$date_time')");
+                    // $addfee_detail=mysqli_query($con, "INSERT INTO `fee_record`(`student_id`, `hoa_id`, `semester`, `total_amount`, `amount_paid`, `created_on`) VALUES ('$student_id','$hoa_id','$semester','$amount','$total_paid','$date_time')");
                 }
                 
             }

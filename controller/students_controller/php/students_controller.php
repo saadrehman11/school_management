@@ -5,6 +5,8 @@ $type = $_REQUEST['type'];
 
 if($type=="101"){    
 
+  // print_r($_POST);
+  // die();
     date_default_timezone_set('Asia/Karachi');
     $date_and_time = date("Y-m-d H:i:s");
     $date_time_file_name = date("Y_m_d_h_i_s");
@@ -64,27 +66,34 @@ if($type=="101"){
             $semester = $_POST['semester'];
             $addsemester=mysqli_query($con, "INSERT INTO `student_semester`(`semester_number`, `student_id`, `created_on`) VALUES ('$semester','$id','$date_and_time')");
 
-            $check_discipline = mysqli_fetch_array(mysqli_query($con,"SELECT * FROM `discipline` WHERE `id` = '$discipline'"));
-            $program = $check_discipline['program'];
-            if($program == "Diploma"){
-                $p = "Diploma";
+            // $check_discipline = mysqli_fetch_array(mysqli_query($con,"SELECT * FROM `discipline` WHERE `id` = '$discipline'"));
+            // $program = $check_discipline['program'];
+            // if($program == "Diploma"){
+            //     $p = "Diploma";
+            // }
+            // elseif($program == "BS"){
+            //     $p = "BS Degree";   
+            // }
+            // elseif($program == "CAT-B"){
+            //     $p = "CAT-B";   
+            // }
+            // elseif($program == "Nursing"){
+            //     $p = "Nursing";   
+            // }
+            // $ret=mysqli_query($con,"SELECT * FROM `head_of_accounts` WHERE (`category` = '$p' || `category` = 'General') AND `status` = '1'"); 
+            // while ($row=mysqli_fetch_array($ret)) 
+            // {   
+            //     $hoa_id = $row['id'];
+            //     $amount = $row['amount'];
+            //     $add_fee_record=mysqli_query($con, "INSERT INTO `fee_record`(`student_id`, `hoa_id`, `semester`, `total_amount`, `created_on`) VALUES ('$id','$hoa_id','$semester','$amount','$date_and_time')");
+            // }
+
+            for($k=0; $k < sizeof($_POST['hoa_id']); $k++){
+              $hoa_id = $_POST['hoa_id'][$k];
+              $amount = $_POST['hoa_total_amount'][$k];
+              $add_fee_record=mysqli_query($con, "INSERT INTO `fee_record`(`student_id`, `hoa_id`, `semester`, `total_amount`, `created_on`) VALUES ('$id','$hoa_id','$semester','$amount','$date_and_time')");
             }
-            elseif($program == "BS"){
-                $p = "BS Degree";   
-            }
-            elseif($program == "CAT-B"){
-                $p = "CAT-B";   
-            }
-            elseif($program == "Nursing"){
-                $p = "Nursing";   
-            }
-            $ret=mysqli_query($con,"SELECT * FROM `head_of_accounts` WHERE (`category` = '$p' || `category` = 'General') AND `status` = '1'"); 
-            while ($row=mysqli_fetch_array($ret)) 
-            {   
-                $hoa_id = $row['id'];
-                $amount = $row['amount'];
-                $add_fee_record=mysqli_query($con, "INSERT INTO `fee_record`(`student_id`, `hoa_id`, `semester`, `total_amount`, `created_on`) VALUES ('$id','$hoa_id','$semester','$amount','$date_and_time')");
-            }
+
             $hostellite = $_POST['hostellite'];
             if($hostellite == '1'){
                 $ret2=mysqli_query($con,"SELECT * FROM `head_of_accounts` WHERE `category` = 'General_optional' AND `status` = '1'"); 
@@ -196,9 +205,12 @@ if($type == "102"){
         $semester = NULL;
       }
       $check_discipline = mysqli_fetch_array(mysqli_query($con,"SELECT * FROM `discipline` WHERE `id` = '$discipline'"));
-      $discipline_name = $check_discipline['discipline_name'];
-      $discipline_branch= $check_discipline['branch'];
-      $discipline_program = $check_discipline['program'];
+      if(!empty($check_discipline)){
+        $discipline_name = $check_discipline['discipline_name'];
+        $discipline_branch= $check_discipline['branch'];
+        $discipline_program = $check_discipline['program'];
+      }
+      
       ?>
       <tr>
         <td><input type="checkbox" name="student_ids[]" id="student_ids"  value="<?=$student_id?>"></td>
@@ -444,5 +456,48 @@ if($type=="107"){
 }
 
 
+if($type=="108"){
+
+  // print_r($_POST);
+  $discipline_id = $_POST['discipline_id'];
+  $check_dis = mysqli_fetch_array(mysqli_query($con,"SELECT * FROM `discipline` WHERE `id` = '$discipline_id'"));
+  $program = $check_dis['program'];
+  $ret=mysqli_query($con,"SELECT * FROM `head_of_accounts` WHERE `status` = '1'"); 
+  echo '<div class="row">';
+  while ($row=mysqli_fetch_array($ret)) 
+  {
+    $flag= 0;
+    $category = $row['category'];
+    ?>
+
+    <div class="col-12 col-md-3 py-2">
+      <label>
+        <input type="checkbox" name="hoa_id[]" id="hoa_checkbox<?=$row['id']?>" onchange="change_status_hoa(<?=$row['id']?>)" value="<?=$row['id']?>" <?php 
+        if($program == "BS"){
+          if($category =="BS Degree" || $category =="General"){
+            $flag = 1;
+            echo 'checked';
+          }} 
+           elseif($program == "Diploma"){
+            if($category =="Diploma" || $category =="General"){
+              $flag = 1;
+              echo 'checked';
+            }} 
+           elseif($program == "CAT-B"){
+            if($category =="CAT-B" || $category =="General"){
+              $flag = 1;
+              echo 'checked';
+            }}?>>
+        <?=$row['account_name']?>
+      </label>
+      <div>
+        <input class="form-control py-0" value="<?=$row['amount']?>" id="hoa_input<?=$row['id']?>" name="hoa_total_amount[]" <?php if($flag == 0){echo 'disabled';}?>>
+      </div>
+    </div>
+    
+    <?php
+  }
+  echo '</div>';
+}
 ?>
 
