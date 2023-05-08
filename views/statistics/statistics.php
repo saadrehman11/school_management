@@ -2,20 +2,27 @@
 include '../../includes/header.php';
 include '../../includes/sidebar.php';
 ?>  
-<main id="main" class="main">
+<main id="main" class="main pt-0">
   <div class="container-fluid">
-
-    <div class="d-flex justify-content-end pb-4">
-      <div class="row ">
+  <div class="d-flex justify-content-center">
+      <h4>Head Of Accounts Stats</h4>
+    </div>
+    <div class="d-flex justify-content-end pb-1">
+      <div class="row">
         <label for="inputDate" class="col-sm-2 col-form-label">Date:</label>
         <div class="col-sm-10">
           <input type="date" id="myDateInput" class="form-control" onchange="load_statistics()">
         </div>
       </div>
     </div>
-    <div class="row table-responsive" id="main_stats_table">
-    
+    <div class="row table-responsive" id="main_stats_table"></div>
+  </div>
+
+  <div class="container-fluid pt-5">
+    <div class="d-flex justify-content-center">
+      <h4>Discipline Wise Stats</h4>
     </div>
+    <div id="discipline_wise_stats_div"></div>
   </div>
 </main>
 
@@ -29,6 +36,7 @@ include '../../includes/footer.php';
     var today = new Date().toISOString().substr(0, 10);
     document.getElementById("myDateInput").value = today;
     load_statistics()
+    discipline_wise_stats() 
   });
 </script>
 
