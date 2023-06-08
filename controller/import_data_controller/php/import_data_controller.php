@@ -126,7 +126,7 @@ include '../../../assets/PHPExcel-1.8/SimpleXLSX.php';
             $date13=$r[18];
             // $date14=$r[19];
 
-            $total_paid=$r[22];
+            $total_paid=$r[20];
             // $outstanding=$r[20];
             // $prev_outstanding=$r[21];
             // $net_outstanding=$r[22];
@@ -157,8 +157,8 @@ include '../../../assets/PHPExcel-1.8/SimpleXLSX.php';
             
             // die();
             
-            $batch = 20;
-            $semester = '3';
+            $batch = 21;
+            $semester = '2';
 
             if($degree == "BS"){
 
@@ -312,7 +312,7 @@ include '../../../assets/PHPExcel-1.8/SimpleXLSX.php';
             }elseif($hoa == "SECURITY"){
                 
                 $hoa_id = "31";
-            }elseif($hoa == "HOSTEL FEE"){
+            }elseif($hoa == "HOSTEL"){
                
                 $hoa_id = "2";
             }elseif($hoa == "CLINICAL TRAINING"){
@@ -324,15 +324,18 @@ include '../../../assets/PHPExcel-1.8/SimpleXLSX.php';
             }elseif($hoa == "ID + Overall"){
                 
                 $hoa_id = "30";
-            }elseif($hoa == "GRACE MARKS FEE"){
+            }elseif($hoa == "GRACE MARKS"){
                 
                 $hoa_id = "17";
             }elseif($hoa == "UFM Fee"){
                 
                 $hoa_id = "19";
-            }elseif($hoa == "TUITION  - 2ND"){
+            }elseif($hoa == "TUITION - 2nd"){
                 
                 $hoa_id = "222";
+            }elseif($hoa == "TUITION 3rd"){
+                
+                $hoa_id = "111";
             }elseif($hoa == "OTHER"){
                 
                 $hoa_id = "32";
