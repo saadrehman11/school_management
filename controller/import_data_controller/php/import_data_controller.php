@@ -133,7 +133,7 @@ include '../../../assets/PHPExcel-1.8/SimpleXLSX.php';
             // $total_outstanding=$r[23];
 
             // echo $name . " ";
-            echo $n . "\n";
+            // echo $n . "\n";
             
             // echo " ".$father_name;
             // echo " ".$discipline;
@@ -158,7 +158,7 @@ include '../../../assets/PHPExcel-1.8/SimpleXLSX.php';
             // die();
             
             $batch = 18;
-            $semester = '1';
+            $semester = '4';
 
             if($degree == "BS"){
 
@@ -273,11 +273,11 @@ include '../../../assets/PHPExcel-1.8/SimpleXLSX.php';
             }
             
             if($flag == 0){
-                
+                // $student_count++;
                 if($semester == '1'){
-                    // $addstudent=mysqli_query($con, "INSERT INTO `student`( `student_name`, `father_name`, `batch`, `discipline`, `status`, `created_on`) VALUES ('$name','$father_name','$batch','$discipline','1','$date_time')");
-                    // $lastId=$con->insert_id;
-                    // $student_id = $lastId;
+                    $addstudent=mysqli_query($con, "INSERT INTO `student`( `student_name`, `father_name`, `batch`, `discipline`, `status`, `created_on`) VALUES ('$name','$father_name','$batch','$discipline','1','$date_time')");
+                    $lastId=$con->insert_id;
+                    $student_id = $lastId;
                     $student_count++;
                     echo $student_count. " ";
                 }
@@ -295,7 +295,7 @@ include '../../../assets/PHPExcel-1.8/SimpleXLSX.php';
                 }
                 
                 if(!empty($student_id)){
-                    // $addsemester=mysqli_query($con, "INSERT INTO `student_semester`(`semester_number`, `student_id`, `status`, `created_on`) VALUES ('$semester','$student_id','1','$date_time')");
+                    $addsemester=mysqli_query($con, "INSERT INTO `student_semester`(`semester_number`, `student_id`, `status`, `created_on`) VALUES ('$semester','$student_id','1','$date_time')");
                 }
                  
             }
@@ -324,9 +324,12 @@ include '../../../assets/PHPExcel-1.8/SimpleXLSX.php';
             }elseif($hoa == "ID + Overall"){
                 
                 $hoa_id = "30";
-            }elseif($hoa == "Grace Marks"){
+            }elseif($hoa == "Grace Marks Fee"){
                 
                 $hoa_id = "17";
+            }elseif($hoa == "UFM Fee"){
+                
+                $hoa_id = "19";
             }elseif($hoa == "Tuitions - 2nd"){
                 
                 $hoa_id = "222";
@@ -336,7 +339,7 @@ include '../../../assets/PHPExcel-1.8/SimpleXLSX.php';
 
             if(!empty($amount)){
                 if(!empty($student_id)){
-                    // $addfee_detail=mysqli_query($con, "INSERT INTO `fee_record`(`student_id`, `hoa_id`, `semester`, `total_amount`, `amount_paid`, `created_on`) VALUES ('$student_id','$hoa_id','$semester','$amount','$total_paid','$date_time')");
+                    $addfee_detail=mysqli_query($con, "INSERT INTO `fee_record`(`student_id`, `hoa_id`, `semester`, `total_amount`, `amount_paid`, `created_on`) VALUES ('$student_id','$hoa_id','$semester','$amount','$total_paid','$date_time')");
                 }
                 
             }
