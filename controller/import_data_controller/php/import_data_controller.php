@@ -132,7 +132,7 @@ include '../../../assets/PHPExcel-1.8/SimpleXLSX.php';
             // $net_outstanding=$r[22];
             // $total_outstanding=$r[23];
 
-            // echo $name . " ";
+            echo $name . "\n";
             // echo $n . "\n";
             
             // echo " ".$father_name;
@@ -157,8 +157,8 @@ include '../../../assets/PHPExcel-1.8/SimpleXLSX.php';
             
             // die();
             
-            $batch = 18;
-            $semester = '4';
+            $batch = 20;
+            $semester = '3';
 
             if($degree == "BS"){
 
@@ -300,39 +300,42 @@ include '../../../assets/PHPExcel-1.8/SimpleXLSX.php';
                  
             }
             
-            if($hoa == "Admission"){
+            if($hoa == "ADMISSION"){
                 
                 $hoa_id = "1";
-            }elseif($hoa == "Tuitions"){
+            }elseif($hoa == "TUITION"){
                 
                 $hoa_id = "6";
-            }elseif($hoa == "Exam"){
+            }elseif($hoa == "EXAMINATION"){
                 
                 $hoa_id = "16";
-            }elseif($hoa == "Security"){
+            }elseif($hoa == "SECURITY"){
                 
                 $hoa_id = "31";
-            }elseif($hoa == "Hostel"){
+            }elseif($hoa == "HOSTEL FEE"){
                
                 $hoa_id = "2";
-            }elseif($hoa == "Clinical Training"){
+            }elseif($hoa == "CLINICAL TRAINING"){
                
                 $hoa_id = "14";
-            }elseif($hoa == "Registration"){
+            }elseif($hoa == "REGISTRATION"){
                
                 $hoa_id = "18";
             }elseif($hoa == "ID + Overall"){
                 
                 $hoa_id = "30";
-            }elseif($hoa == "Grace Marks Fee"){
+            }elseif($hoa == "GRACE MARKS FEE"){
                 
                 $hoa_id = "17";
             }elseif($hoa == "UFM Fee"){
                 
                 $hoa_id = "19";
-            }elseif($hoa == "Tuitions - 2nd"){
+            }elseif($hoa == "TUITION  - 2ND"){
                 
                 $hoa_id = "222";
+            }elseif($hoa == "OTHER"){
+                
+                $hoa_id = "32";
             }
         }
 
