@@ -81,7 +81,7 @@ ini_set('display_errors', true);
 include '../../../assets/PHPExcel-1.8/SimpleXLSX.php';
 
     $count=0;
-    $flag = 0;
+    $flag = 1;
     $student_count = 0;
     $student_id = 0;
     
@@ -102,6 +102,9 @@ include '../../../assets/PHPExcel-1.8/SimpleXLSX.php';
             $sr=trim($r[0]);
             $n = $r[1];
             $name=trim(preg_replace('/[^a-zA-Z]+$/', '', $n));
+            if(!empty($n)){
+                $flag = 0;
+            }
             $father_name=trim($r[2]);
             $discipline=trim($r[3]);
             $hoa=trim($r[4]);
@@ -123,16 +126,18 @@ include '../../../assets/PHPExcel-1.8/SimpleXLSX.php';
             $date13=$r[18];
             // $date14=$r[19];
 
-            $total_paid=$r[19];
-            $outstanding=$r[20];
-            $prev_outstanding=$r[21];
-            $net_outstanding=$r[22];
-            $total_outstanding=$r[23];
+            $total_paid=$r[22];
+            // $outstanding=$r[20];
+            // $prev_outstanding=$r[21];
+            // $net_outstanding=$r[22];
+            // $total_outstanding=$r[23];
 
-            echo $name . "\n";
+            // echo $name . " ";
+            echo $n . "\n";
+            
             // echo " ".$father_name;
             // echo " ".$discipline;
-            // echo " ".$hoa;
+            // echo " ".$hoa. "\n";
             // echo " ".$amount;
             // echo " ".$date1;
             // echo " ".$date2;
@@ -146,13 +151,13 @@ include '../../../assets/PHPExcel-1.8/SimpleXLSX.php';
             // echo " ".$date10;
             // echo " ".$date11;
             // echo " ".$date12;
-            // echo " ".$date13;   4th backup is bs completed except 7 8
-            // echo " ".$date14;    5th backup is bs completed except 7
+            // echo " ".$date13;   
+            // echo " ".$date14;    
             // echo " ".$total_paid;
             
             // die();
             
-            $batch = 23;
+            $batch = 18;
             $semester = '1';
 
             if($degree == "BS"){
@@ -268,60 +273,63 @@ include '../../../assets/PHPExcel-1.8/SimpleXLSX.php';
             }
             
             if($flag == 0){
-
+                
                 if($semester == '1'){
                     // $addstudent=mysqli_query($con, "INSERT INTO `student`( `student_name`, `father_name`, `batch`, `discipline`, `status`, `created_on`) VALUES ('$name','$father_name','$batch','$discipline','1','$date_time')");
                     // $lastId=$con->insert_id;
                     // $student_id = $lastId;
                     $student_count++;
+                    echo $student_count. " ";
                 }
                 else{
                     $student_id = NULL;
                     
                     $q = "SELECT * FROM `student` WHERE `student_name` = '$name' AND father_name= '$father_name'";
-                    // echo $q." ";
                     $check_dublicate = mysqli_fetch_array(mysqli_query($con,$q));
                     if(!empty($check_dublicate['id'])){ 
-                        
                         $student_count++;
-                        // echo $student_count ."\n";
                         $student_id = $check_dublicate['id'];
                         // echo " ".$student_id . " " .$name. " \n";
                     }
-                    echo $student_count. " ". $student_id ."\n";
+                    echo $student_count. ", student_id ". $student_id . ", ". $name."\n";
                 }
                 
                 if(!empty($student_id)){
                     // $addsemester=mysqli_query($con, "INSERT INTO `student_semester`(`semester_number`, `student_id`, `status`, `created_on`) VALUES ('$semester','$student_id','1','$date_time')");
                 }
-                
-                
+                 
             }
             
-            if($hoa == "OTHER"){
-                $flag = 0;
-                $hoa_id = "32";
-            }elseif($hoa == "ADMISSION"){
-                $flag = 1;
+            if($hoa == "Admission"){
+                
                 $hoa_id = "1";
-            }elseif($hoa == "TUITION"){
-                $flag = 1;
+            }elseif($hoa == "Tuitions"){
+                
                 $hoa_id = "6";
-            }elseif($hoa == "EXAMINATION"){
-                $flag = 1;
+            }elseif($hoa == "Exam"){
+                
                 $hoa_id = "16";
-            }elseif($hoa == "SECURITY"){
-                $flag = 1;
+            }elseif($hoa == "Security"){
+                
                 $hoa_id = "31";
             }elseif($hoa == "Hostel"){
-                $flag = 1;
+               
                 $hoa_id = "2";
             }elseif($hoa == "Clinical Training"){
-                $flag = 1;
+               
                 $hoa_id = "14";
-            }elseif($hoa == "REGISTRATION"){
-                $flag = 1;
+            }elseif($hoa == "Registration"){
+               
                 $hoa_id = "18";
+            }elseif($hoa == "ID + Overall"){
+                
+                $hoa_id = "30";
+            }elseif($hoa == "Grace Marks"){
+                
+                $hoa_id = "17";
+            }elseif($hoa == "Tuitions - 2nd"){
+                
+                $hoa_id = "222";
             }
         }
 
@@ -340,7 +348,7 @@ include '../../../assets/PHPExcel-1.8/SimpleXLSX.php';
             // echo " k is ".$k;
             
             
-      
+            $flag = 1;
         }
       
      }
