@@ -64,6 +64,15 @@ include '../../includes/sidebar.php';
   </div>
 </div>
 
+<div class="modal fade" id="edit_fee_modal" tabindex="-1">
+  <div class="modal-dialog modal-dialog-centered modal-xl">
+    <div class="modal-content">
+ 
+      <div class="modal-body" id="fee_edit_modal_body"></div>
+    </div>
+  </div>
+</div>
+
 
 <!-- Edit Student Modal-->
 <?php

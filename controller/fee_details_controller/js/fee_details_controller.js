@@ -127,3 +127,40 @@ function submit_semester_amount(semester,row_id,student_id){
     });
 }
 
+
+function edit_fee_detail(row_id,student_id){
+    $.ajax({    
+        type: "POST",
+        url: "../../controller/fee_details_controller/php/fee_details_controller.php",   
+        data: {
+            type:108,
+            row_id:row_id,
+            student_id:student_id,
+        },             
+        success: function(data){ 
+            // console.log(data)
+            $('#fee_edit_modal_body').html(data)
+        }
+    });
+}
+
+function update_fee_values(fee_id){
+    var formdata = new FormData(document.getElementById("fee_edit_form"+fee_id))
+    formdata.append('fee_id',fee_id)
+    $.ajax({    
+        type: "POST",
+        url: "../../controller/fee_details_controller/php/fee_details_controller.php?type=109",   
+        data: formdata,
+        contentType: false,
+        processData:false,
+        cache: false,             
+        success: function(data){ 
+            console.log(data)
+            var res = JSON.parse(data)
+            if(res.status_Code == 100){
+                alert(res.msg);
+            }
+        }
+    });
+}
+

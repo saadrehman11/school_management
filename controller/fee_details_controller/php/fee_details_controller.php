@@ -1,6 +1,6 @@
 <?php
 include '../../../includes/dbconnection.php';
-
+ error_reporting(0); 
 $type = $_REQUEST['type'];
 
 // load students
@@ -293,6 +293,7 @@ if($type=="103"){
         <th scope="col">Semester</th>
         <th scope="col">Total Amount</th>
         <th scope="col">Amount Paid</th>
+        <th scope="col">Edit</th>
         <th scope="col" class="w-auto">Paying Amount</th>
         <th scope="col">Submit</th>
       </tr>
@@ -350,6 +351,9 @@ if($type=="103"){
           <?php echo '<p class="text-sm mb-0">'.$row['amount_paid'].'</p>';
           $sum_paid = $sum_paid + $row['amount_paid'];
           ?>
+        </td>
+        <td>
+          <button class="btn btn-info btn-sm text-white" onclick="edit_fee_detail('<?=$id?>','<?=$student_id?>')" data-bs-toggle="modal" data-bs-target="#edit_fee_modal">Edit</button>
         </td>
         <td style="width:10vw">
           <div >
@@ -545,8 +549,9 @@ if($type=="105"){
   {
     $student_id = $row['student_id'];
     $check_student = mysqli_fetch_array(mysqli_query($con,"SELECT * FROM `student` WHERE `id` = '$student_id'"));
+
     $discipline = $check_student['discipline'];
-    
+  
     $check_semester = mysqli_fetch_array(mysqli_query($con,"SELECT * FROM `student_semester` WHERE `student_id` = '$student_id' ORDER BY created_on DESC LIMIT 1"));
     if(!empty($check_semester)){
       $semester = $check_semester['semester_number'];
@@ -554,15 +559,15 @@ if($type=="105"){
     else{
       $semester = NULL;
     }
+      $check_discipline = mysqli_fetch_array(mysqli_query($con,"SELECT * FROM `discipline` WHERE `id` = '$discipline'"));
     
-
-    $check_discipline = mysqli_fetch_array(mysqli_query($con,"SELECT * FROM `discipline` WHERE `id` = '$discipline'"));
+      if(!empty($check_discipline)){
+        $discipline_name = $check_discipline['discipline_name'];
+        $discipline_branch= $check_discipline['branch'];
+        $discipline_program = $check_discipline['program'];
+      }
     
-    if(!empty($check_discipline)){
-      $discipline_name = $check_discipline['discipline_name'];
-      $discipline_branch= $check_discipline['branch'];
-      $discipline_program = $check_discipline['program'];
-    }
+    
     
     ?>
     <tr>
@@ -578,7 +583,7 @@ if($type=="105"){
           }?>
       </td>
       <td>
-        <p class="text-sm"><?=$check_student['student_name']?></p></td>
+        <p class="text-sm w-25"><?=$check_student['student_name']?></p></td>
       <td>
         <p class="text-sm"><?=$check_student['father_name']?></p>  
       </td>
@@ -829,5 +834,63 @@ if($type=="107"){
   }
   
 
+
+}
+
+// edit amount form
+if($type=="108"){
+
+  $fee_id = $_POST['row_id'];
+  $student_id = $_POST['student_id'];
+
+  $check_student_rec = mysqli_fetch_array(mysqli_query($con,"SELECT * FROM `student` WHERE `id` = '$student_id'"));
+
+  $check_fee_rec = mysqli_fetch_array(mysqli_query($con,"SELECT *  FROM `fee_record` WHERE `id` = $fee_id AND student_id = '$student_id'"));
+
+  ?>
+  <form id="fee_edit_form<?=$fee_id?>">
+  <div class="container">
+    <div class="row">
+      <div class="col-12 py-2">
+        <div class="form-group">
+          <b><label>Student Name: <?=$check_student_rec['student_name']?></label></b>
+        </div>
+      </div>
+      <div class="col-12 col-md-6 py-2">
+        <div class="form-group">
+          <label for="total_amount">Total Amount:</label>
+          <input type="number" class="form-control" name="total_amount" id="total_amount" value="<?=$check_fee_rec['total_amount']?>">
+        </div>
+      </div>
+      <div class="col-12 col-md-6 py-2">
+        <div class="form-group">
+          <label for="paid_amount">Paid Amount:</label>
+          <input type="number" class="form-control" name="paid_amount" id="paid_amount" value="<?=$check_fee_rec['amount_paid']?>">
+        </div>
+      </div>
+      <div class="col-12 py-2">
+      <button type="button" onclick="update_fee_values('<?=$fee_id?>')" class="btn btn-primary">Update</button>
+      </div> 
+    </div>
+    
+  </div>
+  </form>
+  <?php
+
+}
+
+// update fee values
+if($type=="109"){
+
+  // print_r($_POST);
+  $total_amount = $_POST['total_amount'];
+  $paid_amount = $_POST['paid_amount'];
+  $fee_id = $_POST['fee_id'];
+
+  $updt_query=mysqli_query($con, "UPDATE `fee_record` SET `total_amount`='$total_amount',`amount_paid`='$paid_amount' WHERE `id` = '$fee_id'");
+
+  if($updt_query){
+    echo json_encode(['status_Code'=>100,'msg'=>'Values Successfully updated']);
+  }
 
 }

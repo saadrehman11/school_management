@@ -207,3 +207,136 @@ if($type=="103"){
     <?php
 }
 
+
+// batch wise stats
+if($type=="104"){
+
+    $total_amount2 = 0;
+    $paid_amount2 = 0;
+    $outstanding_amount2 = 0;
+
+    $ret=mysqli_query($con,"SELECT
+    *,
+    SUM(`total_amount`) AS total_amount_all,
+    SUM(`amount_paid`) AS amount_paid_all
+    FROM
+        `student`
+    INNER JOIN fee_record ON student.id = fee_record.student_id
+    GROUP BY
+        student.batch
+    ORDER BY
+        student.batch DESC"); 
+    $counting =1;
+    ?>
+    <table class="table table-striped datatable " id="discipline_stats_table">
+        <thead class="bg-dark text-white">
+            <tr>
+            <th scope="col">#</th>
+            <th scope="col">Batch</th>
+            <th scope="col">Total Amount</th>
+            <th scope="col">Amount Collected</th>
+            <th scope="col">Outstanding</th>
+            <th scope="col">Details</th>
+            </tr>
+        </thead>
+        <tbody>
+    <?php
+    while ($row=mysqli_fetch_array($ret)) 
+    {
+        $student_id = $row['id'];
+        $batch = $row['batch'];
+?>
+        <tr>
+           
+            <td>
+                <p class="text-sm mb-0"><?=$counting?></p>
+            </td>
+            <td>
+                <p class="text-sm mb-0"><?=$row['batch']?></p>
+            </td>
+            <td>
+                <p class="text-sm mb-0">Rs. <?=$row['total_amount_all']?></p>
+            </td>
+            <td>
+                <p class="text-sm mb-0">Rs. <?=$row['amount_paid_all']?></p>  
+            </td>
+            <td>
+                <?php 
+                $Outstanding = intval($row['total_amount_all']) - intval($row['amount_paid_all']);
+                ?>
+                <p class="text-sm mb-0">Rs. <?=$Outstanding?></p>  
+            </td>
+            <td>
+            <a class="btn btn-info btn-sm" data-bs-target="#semester_wise_row<?=$batch?>" data-bs-toggle="collapse" href="#" onclick="show_semester_wise_detail('<?=$batch?>')"><i class="bi bi-clipboard-check"></i> Details</a>
+            </td>
+        </tr>
+        <td colspan="7">
+          <div class="collapse" id="semester_wise_row<?=$batch?>"></div>
+        </td>
+    <?php
+        $counting++;
+    }
+    ?>
+        </tbody>
+    </table>
+    <?php
+}
+
+if($type=="105"){
+
+    $batch = $_POST['batch'];
+    $ret=mysqli_query($con,"SELECT
+    *,
+    SUM(`total_amount`) AS total_amount_all,
+    SUM(`amount_paid`) AS amount_paid_all
+    FROM
+        `student`
+    INNER JOIN fee_record ON student.id = fee_record.student_id
+    WHERE batch = '$batch' 
+    GROUP BY
+        student.batch,
+        fee_record.semester
+    ORDER BY
+        student.batch DESC"); 
+
+    ?>
+    <table class="table table-striped datatable " id="batch_stats_table">
+        <thead class="bg-primary text-white">
+            <tr>
+            <th scope="col">Semester</th>
+            <th scope="col">Total Amount</th>
+            <th scope="col">Amount Collected</th>
+            <th scope="col">Outstanding</th>
+            </tr>
+        </thead>
+        <tbody>
+    <?php
+    while ($row=mysqli_fetch_array($ret)) 
+    {
+        $student_id = $row['id'];
+    ?>
+        <tr>
+           
+            <td>
+                <p class="text-sm mb-0"><?=$row['semester']?></p>
+            </td>
+            <td>
+                <p class="text-sm mb-0">Rs. <?=$row['total_amount_all']?></p>
+            </td>
+            <td>
+                <p class="text-sm mb-0">Rs. <?=$row['amount_paid_all']?></p>  
+            </td>
+            <td>
+                <?php 
+                $Outstanding = intval($row['total_amount_all']) - intval($row['amount_paid_all']);
+                ?>
+                <p class="text-sm mb-0">Rs. <?=$Outstanding?></p>  
+            </td>
+        </tr>
+    <?php
+    }
+    ?>
+        </tbody>
+    </table>
+    <?php
+}

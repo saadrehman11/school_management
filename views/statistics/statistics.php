@@ -5,7 +5,7 @@ include '../../includes/sidebar.php';
 <main id="main" class="main pt-0">
   <div class="container-fluid">
   <div class="d-flex justify-content-center">
-      <h4>Head Of Accounts Stats</h4>
+      <h3>Head Of Accounts Stats</h3>
     </div>
     <div class="d-flex justify-content-end pb-1">
       <div class="row">
@@ -18,12 +18,28 @@ include '../../includes/sidebar.php';
     <div class="row table-responsive" id="main_stats_table"></div>
   </div>
 
-  <div class="container-fluid pt-5">
-    <div class="d-flex justify-content-center">
-      <h4>Discipline Wise Stats</h4>
+  <div class="row">
+    <div class="col-12 col-md-6">
+      <div class="container-fluid pt-5">
+        <div class="d-flex justify-content-center">
+          <h3>Batch Wise Stats</h3>
+        </div>
+        <div id="batch_wise_stats_div"></div>
+      </div>
     </div>
-    <div id="discipline_wise_stats_div"></div>
+
+    <div class="col-12 col-md-6">
+      <div class="container-fluid pt-5">
+      <div class="d-flex justify-content-center">
+        <h3>Discipline Wise Stats</h3>
+      </div>
+      <div id="discipline_wise_stats_div"></div>
+    </div>
+    </div>
   </div>
+  
+
+  
 </main>
 
 <?php
@@ -36,6 +52,7 @@ include '../../includes/footer.php';
     var today = new Date().toISOString().substr(0, 10);
     document.getElementById("myDateInput").value = today;
     load_statistics()
+    batch_wise_stats() 
     discipline_wise_stats() 
   });
 </script>
