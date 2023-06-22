@@ -132,32 +132,19 @@ include '../../../assets/PHPExcel-1.8/SimpleXLSX.php';
             // $net_outstanding=$r[22];
             // $total_outstanding=$r[23];
 
-            echo $name . "\n";
-            // echo $n . "\n";
-            
+            // echo $name . "\n";
+            // echo $total_paid . "\n";
+    
             // echo " ".$father_name;
             // echo " ".$discipline;
             // echo " ".$hoa. "\n";
             // echo " ".$amount;
-            // echo " ".$date1;
-            // echo " ".$date2;
-            // echo " ".$date3;
-            // echo " ".$date4;
-            // echo " ".$date5;
-            // echo " ".$date6;
-            // echo " ".$date7;
-            // echo " ".$date8;
-            // echo " ".$date9;
-            // echo " ".$date10;
-            // echo " ".$date11;
-            // echo " ".$date12;
-            // echo " ".$date13;   
-            // echo " ".$date14;    
+  
             // echo " ".$total_paid;
             
             // die();
             
-            $batch = 21;
+            $batch = 22;
             $semester = '2';
 
             if($degree == "BS"){
@@ -270,6 +257,9 @@ include '../../../assets/PHPExcel-1.8/SimpleXLSX.php';
             }
             elseif($discipline =="PHY"){
                 $discipline = '14';
+            }
+            elseif($discipline =="DYL"){
+                $discipline = '15';
             }
             
             if($flag == 0){
